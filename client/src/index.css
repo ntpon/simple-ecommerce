@@ -1,8 +1,15 @@
+:root {
+  --color-primary: #18bc9c;
+  --color-secondary: #ecf0f1;
+  --color-danger: #e74c3c;
+  --color-primary-border: #dce4ec;
+  --color-body-text: #82918c;
+}
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Mitr", "MuseoModerno", sans-serif;
+  font-family: "Montserrat", "Mitr", sans-serif;
 }
 
 a {

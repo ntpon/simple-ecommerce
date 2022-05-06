@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {
   MenuLink,
   MenuMainContainer,
@@ -27,6 +27,23 @@ const navbarMenu = [
 ]
 
 function Navbar() {
+  const [isSticky, setIsSticky] = useState(false)
+
+  useEffect(() => {
+    window.addEventListener("scroll", stickNavbar)
+
+    return () => {
+      window.removeEventListener("scroll", stickNavbar)
+    }
+  }, [])
+
+  const stickNavbar = () => {
+    if (window !== undefined) {
+      let windowHeight = window.scrollY
+      windowHeight > 100 ? setIsSticky(true) : setIsSticky(false)
+    }
+  }
+
   return (
     <NavbarContainer>
       <NavbarHeaderContainer>
@@ -49,7 +66,7 @@ function Navbar() {
           </NavbarSearchIconContainer>
         </NavbarSearchContainer>
       </NavbarHeaderContainer>
-      <NavbarMenuContainer>
+      <NavbarMenuContainer sticky={isSticky}>
         <MenuMainContainer>
           <MenuLink to='/'>หน้าหลัก</MenuLink>
           <MenuLink to='/'>สินค้าทั้งหมด</MenuLink>

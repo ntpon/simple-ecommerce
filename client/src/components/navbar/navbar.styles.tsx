@@ -48,7 +48,7 @@ export const NavbarSearchIconBox = styled.div`
 `
 
 export const NavbarSearchInput = styled.input`
-  border: 1px solid #dce4ec;
+  border: 1px solid var(--color-primary-border);
   border-radius: 2px;
   height: 35px;
   /* width: 280px; */
@@ -65,17 +65,23 @@ export const Text = styled.p`
   font-size: 14px;
   font-weight: normal;
   span {
-    color: #18bc9c;
+    color: var(--color-primary);
     cursor: pointer;
   }
 `
-
-export const NavbarMenuContainer = styled.div`
-  height: 40px;
-  background-color: #18bc9c;
+type NavbarMenuContainerProps = {
+  sticky: boolean
+}
+export const NavbarMenuContainer = styled.div<NavbarMenuContainerProps>`
+  height: 50px;
+  background-color: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: ${({ sticky }) => (sticky ? "fixed" : "relative")};
+  width: 100%;
+  top: 0;
+  z-index: 2;
 `
 
 export const MenuLink = styled(Link)`
@@ -95,5 +101,6 @@ export const MenuMainContainer = styled.div`
 
 export const MenuOtherContainer = styled.div`
   display: flex;
+  align-items: center;
   margin-right: 10px;
 `
