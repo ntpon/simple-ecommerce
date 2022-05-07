@@ -1,6 +1,5 @@
 import React from "react"
 import { Route, Routes } from "react-router-dom"
-import { AdminLayoutContainer } from "./components/layout/admin/admin-layout.styles"
 import Layout from "./components/layout/layout.component"
 import MemberLayout from "./components/layout/memeber/memeber-layout.component"
 import Auth from "./pages/auth/auth.component"
@@ -17,6 +16,8 @@ import UserManage from "./pages/admin/user-manage/user-manage.component"
 import CategoryManage from "./pages/admin/category-manage/category-manage.component"
 import AuthorManage from "./pages/admin/author-manage/author-manage.component"
 import ProductManage from "./pages/admin/product-manage/product-manage.component"
+import AdminLayout from "./components/layout/admin/admin-layout.component"
+import OrderStatusManage from "./pages/admin/order-status-manage/order-status-manage.component"
 
 function App() {
   return (
@@ -34,14 +35,22 @@ function App() {
             <Route path='security' element={<Security />} />
             <Route path='support' element={<Support />} />
           </Route>
-          <Route path='/admin' element={<AdminLayoutContainer />}>
+          <Route path='/admin' element={<AdminLayout />}>
             <Route index element={<Order />} />
             <Route path='profile' element={<Profile />} />
             <Route path='security' element={<Security />} />
             <Route path='user' element={<UserManage />} />
+            <Route path='user/create' element={<UserManage />} />
+            <Route path='user/edit' element={<UserManage />} />
             <Route path='category' element={<CategoryManage />} />
+            <Route path='category/create' element={<CategoryManage />} />
+            <Route path='category/edit' element={<CategoryManage />} />
             <Route path='author' element={<AuthorManage />} />
+            <Route path='author/create' element={<AuthorManage />} />
             <Route path='product' element={<ProductManage />} />
+            <Route path='product/create' element={<ProductManage />} />
+            <Route path='product/edit' element={<ProductManage />} />
+            <Route path='order-status' element={<OrderStatusManage />} />
           </Route>
         </Route>
       </Routes>
