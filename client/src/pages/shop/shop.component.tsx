@@ -4,7 +4,6 @@ import Select from "react-select"
 
 import {
   ContentContainer,
-  Header,
   LeftContainer,
   MainContent,
   ProductItem,
@@ -18,6 +17,7 @@ import {
 import { books } from "../../book-data"
 import { useState } from "react"
 import ProductCard from "../../components/product-card/product-card.component"
+import Header from "../../components/header/header.component"
 
 const options = [
   { value: "1", label: "วันที่ (ล่าสุด)" },
@@ -32,10 +32,7 @@ function Shop() {
   }
   return (
     <ShopContainer>
-      <Header>
-        <ImBooks />
-        <span>สินค้าทั้งหมด</span>
-      </Header>
+      <Header text='หนังสือทั้งหมด' icon={<ImBooks />} />
       <ContentContainer>
         <LeftContainer>
           <ProductSidebar />

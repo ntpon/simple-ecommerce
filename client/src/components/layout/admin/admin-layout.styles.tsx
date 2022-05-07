@@ -1,5 +1,5 @@
 import styled from "styled-components"
-export const MemberLayoutContainer = styled.div`
+export const AdminLayoutContainer = styled.div`
   display: flex;
 `
 

@@ -80,17 +80,17 @@ function Navbar() {
           </MenuLink>
         </MenuMainContainer>
         <MenuOtherContainer>
-          <MenuLink to='/'>
+          <MenuLink to='/checkout'>
             <BiCartAlt />
             <span>ตระกร้า</span>
           </MenuLink>
-          <MenuLink to='/'>
+          <MenuLink to='/member'>
             <BiUser />
             <span>บัญชีของคุณ</span>
           </MenuLink>
-          <Icon>
+          {/* <Icon>
             <Flags.TH></Flags.TH>
-          </Icon>
+          </Icon> */}
         </MenuOtherContainer>
       </NavbarMenuContainer>
     </NavbarContainer>

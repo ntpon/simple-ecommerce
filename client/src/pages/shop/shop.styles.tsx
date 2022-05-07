@@ -6,6 +6,9 @@ export const Header = styled.h1`
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 80px;
+  margin-bottom: 15px;
+  background-color: var(--color-secondary);
   span {
     margin-left: 10px;
   }
