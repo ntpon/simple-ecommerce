@@ -22,6 +22,7 @@ export const ButtonContainer = styled.div``
 export const ProductToCart = styled.div`
   display: flex;
   justify-content: flex-end;
+  z-index: 3;
 `
 export const NameText = styled.h3`
   display: -webkit-box;

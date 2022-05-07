@@ -18,6 +18,8 @@ import {
 import Flags from "country-flag-icons/react/3x2"
 
 import { BiSearch, BiCartAlt, BiUser } from "react-icons/bi"
+import { AiOutlineHome } from "react-icons/ai"
+import { ImBooks } from "react-icons/im"
 import Icon from "../icon/icon.component"
 
 const navbarMenu = [
@@ -68,8 +70,14 @@ function Navbar() {
       </NavbarHeaderContainer>
       <NavbarMenuContainer sticky={isSticky}>
         <MenuMainContainer>
-          <MenuLink to='/'>หน้าหลัก</MenuLink>
-          <MenuLink to='/'>สินค้าทั้งหมด</MenuLink>
+          <MenuLink to='/'>
+            <AiOutlineHome />
+            <span>หน้าหลัก</span>
+          </MenuLink>
+          <MenuLink to='/shop'>
+            <ImBooks />
+            <span>สินค้าทั้งหมด</span>
+          </MenuLink>
         </MenuMainContainer>
         <MenuOtherContainer>
           <MenuLink to='/'>

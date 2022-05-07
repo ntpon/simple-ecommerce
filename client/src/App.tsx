@@ -10,6 +10,7 @@ import Dashboard from "./pages/memeber/dashbaord/dashboard.component"
 import Order from "./pages/memeber/orders/order.component"
 import Profile from "./pages/memeber/profile/profile.component"
 import Support from "./pages/memeber/support/support.component"
+import ShopDetail from "./pages/shop-detail/shop-detail.component"
 import Shop from "./pages/shop/shop.component"
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
           <Route path='/shop' element={<Shop />} />
+          <Route path='/shop/:id' element={<ShopDetail />} />
           <Route path='/checkout' element={<Checkout />} />
           <Route path='/auth' element={<Auth />} />
           <Route path='/member' element={<MemberLayout />}>
