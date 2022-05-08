@@ -18,8 +18,8 @@ function Sidebar({ menus }: SidebarProps) {
     <SidebarContainer>
       <SidebarList>
         <SidebarHeader>สมาชิก</SidebarHeader>
-        {menus.map((menu) => (
-          <NavLink to={menu.link} key={menu.link}>
+        {menus.map((menu, index) => (
+          <NavLink end={index === 0} to={menu.link} key={menu.link}>
             <SidebarItem>{menu.label}</SidebarItem>
           </NavLink>
         ))}

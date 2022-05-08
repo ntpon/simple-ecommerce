@@ -16,7 +16,7 @@ function Profile() {
         <FormInput label='นามสกุล' />
       </ProfileDetailContainer>
       <ProfileDetailContainer>
-        <FormInput label='Email' disabled />
+        <FormInput label='อีเมล' disabled />
         <FormInput label='เบอร์โทรศัพท์' />
       </ProfileDetailContainer>
       <ProfileAddressContainer>

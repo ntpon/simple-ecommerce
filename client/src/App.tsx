@@ -18,6 +18,18 @@ import AuthorManage from "./pages/admin/author-manage/author-manage.component"
 import ProductManage from "./pages/admin/product-manage/product-manage.component"
 import AdminLayout from "./components/layout/admin/admin-layout.component"
 import OrderStatusManage from "./pages/admin/order-status-manage/order-status-manage.component"
+import AuthorCreate from "./pages/admin/author-create/author-create.component"
+import AuthorEdit from "./pages/admin/author-edit/author-create.component"
+import ProductCreate from "./pages/admin/product-create/product-create.component"
+import ProductEdit from "./pages/admin/product-edit/product-edit.component"
+import CategoryEdit from "./pages/admin/category-edit/category-edit.component"
+import CategoryCreate from "./pages/admin/category-create/category-create.component"
+import UserEdit from "./pages/admin/user-edit/user-edit.component"
+import UserCreate from "./pages/admin/user-create/user-create.component"
+import PublisherManage from "./pages/admin/publisher-manage/publisher-manage.component"
+import PublisherCreate from "./pages/admin/publisher-create/publisher-create.component"
+import PublisherEdit from "./pages/admin/publisher-edit/publisher-edit.component"
+import OrderStatusShow from "./pages/admin/order-status-show/order-status-show"
 
 function App() {
   return (
@@ -40,17 +52,22 @@ function App() {
             <Route path='profile' element={<Profile />} />
             <Route path='security' element={<Security />} />
             <Route path='user' element={<UserManage />} />
-            <Route path='user/create' element={<UserManage />} />
-            <Route path='user/edit' element={<UserManage />} />
+            <Route path='user/create' element={<UserCreate />} />
+            <Route path='user/edit/:id' element={<UserEdit />} />
             <Route path='category' element={<CategoryManage />} />
-            <Route path='category/create' element={<CategoryManage />} />
-            <Route path='category/edit' element={<CategoryManage />} />
+            <Route path='category/create' element={<CategoryCreate />} />
+            <Route path='category/edit/:id' element={<CategoryEdit />} />
             <Route path='author' element={<AuthorManage />} />
-            <Route path='author/create' element={<AuthorManage />} />
+            <Route path='author/create' element={<AuthorCreate />} />
+            <Route path='author/edit/:id' element={<AuthorEdit />} />
+            <Route path='publisher' element={<PublisherManage />} />
+            <Route path='publisher/create' element={<PublisherCreate />} />
+            <Route path='publisher/edit/:id' element={<PublisherEdit />} />
             <Route path='product' element={<ProductManage />} />
-            <Route path='product/create' element={<ProductManage />} />
-            <Route path='product/edit' element={<ProductManage />} />
+            <Route path='product/create' element={<ProductCreate />} />
+            <Route path='product/edit/:id' element={<ProductEdit />} />
             <Route path='order-status' element={<OrderStatusManage />} />
+            <Route path='order-status/:id' element={<OrderStatusShow />} />
           </Route>
         </Route>
       </Routes>

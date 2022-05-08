@@ -42,7 +42,7 @@ function Navbar() {
   const stickNavbar = () => {
     if (window !== undefined) {
       let windowHeight = window.scrollY
-      windowHeight > 100 ? setIsSticky(true) : setIsSticky(false)
+      windowHeight > 151 ? setIsSticky(true) : setIsSticky(false)
     }
   }
 

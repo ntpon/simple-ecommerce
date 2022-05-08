@@ -3,6 +3,10 @@ import { BaseButton } from "./button.styles"
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
 
 function Button({ children, ...otherProps }: ButtonProps) {
-  return <BaseButton {...otherProps}>{children}</BaseButton>
+  return (
+    <BaseButton type='button' {...otherProps}>
+      {children}
+    </BaseButton>
+  )
 }
 export default Button

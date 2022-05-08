@@ -28,6 +28,10 @@ const menus = [
     link: "/admin/author",
   },
   {
+    label: "จัดการสำนักพิมพ์",
+    link: "/admin/publisher",
+  },
+  {
     label: "จัดการสินค้า",
     link: "/admin/product",
   },

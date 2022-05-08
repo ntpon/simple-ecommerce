@@ -12,6 +12,9 @@ export const SidebarList = styled.ul`
   list-style: none;
   min-width: 250px;
   border-bottom: 1px solid var(--color-secondary);
+  & > .active > li {
+    background-color: var(--color-secondary);
+  }
 `
 export const SidebarItem = styled.li`
   padding: 10px;
