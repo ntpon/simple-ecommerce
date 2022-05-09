@@ -20,3 +20,17 @@ a {
 .form-select {
   width: 100%;
 }
+
+#backdrop-hook {
+  overflow: hidden;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

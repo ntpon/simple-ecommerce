@@ -2,7 +2,6 @@ import React from "react"
 import { Route, Routes } from "react-router-dom"
 import Layout from "./components/layout/layout.component"
 import MemberLayout from "./components/layout/memeber/memeber-layout.component"
-import Auth from "./pages/auth/auth.component"
 import Checkout from "./pages/checkout/chekcout.component"
 import Home from "./pages/home/home.component"
 import Order from "./pages/memeber/orders/order.component"
@@ -30,6 +29,7 @@ import PublisherManage from "./pages/admin/publisher-manage/publisher-manage.com
 import PublisherCreate from "./pages/admin/publisher-create/publisher-create.component"
 import PublisherEdit from "./pages/admin/publisher-edit/publisher-edit.component"
 import OrderStatusShow from "./pages/admin/order-status-show/order-status-show"
+import Search from "./pages/search/search.component"
 
 function App() {
   return (
@@ -40,7 +40,7 @@ function App() {
           <Route path='/shop' element={<Shop />} />
           <Route path='/shop/:id' element={<ShopDetail />} />
           <Route path='/checkout' element={<Checkout />} />
-          <Route path='/auth' element={<Auth />} />
+          <Route path='/search' element={<Search />} />
           <Route path='/member' element={<MemberLayout />}>
             <Route index element={<Order />} />
             <Route path='profile' element={<Profile />} />

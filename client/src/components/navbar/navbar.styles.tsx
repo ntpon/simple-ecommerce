@@ -32,19 +32,20 @@ export const NavbarSearchContainer = styled.div`
   flex: 1;
   margin: 0px 25px;
 `
-export const NavbarSearchInputContainer = styled.div`
+export const NavbarSearchForm = styled.form`
   display: flex;
   align-items: center;
   width: 100%;
 `
 
-export const NavbarSearchIconBox = styled.div`
+export const NavbarSearchIconBox = styled.button`
   width: 40px;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #000;
+  cursor: pointer;
 `
 
 export const NavbarSearchInput = styled.input`
@@ -82,6 +83,20 @@ export const NavbarMenuContainer = styled.div<NavbarMenuContainerProps>`
   width: 100%;
   top: 0;
   z-index: 2;
+
+  button {
+    color: #fff;
+    padding: 0 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    span {
+      margin-left: 5px;
+    }
+  }
 `
 
 export const MenuLink = styled(Link)`

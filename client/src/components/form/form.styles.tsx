@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 export const Form = styled.form`
@@ -33,3 +34,11 @@ export const ImageList = styled.div`
 `
 
 export const ImageItem = styled.div``
+
+export const AuthButtonOther = styled.button`
+  color: var(--color-primary);
+  background-color: transparent;
+  border: transparent;
+  margin-left: 10px;
+  cursor: pointer;
+`
