@@ -10,10 +10,12 @@ const AuthorSchema = new Schema(
       public_id: {
         type: String,
         required: true,
+        default: null,
       },
       url: {
         type: String,
         required: true,
+        default: null,
       },
     },
     description: {

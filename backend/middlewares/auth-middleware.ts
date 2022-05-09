@@ -2,6 +2,8 @@ import jwt from "jsonwebtoken"
 import HttpError from "../utils/http-error"
 import User from "../models/user"
 import { Request, Response, NextFunction } from "express"
+import dotenv from "dotenv"
+dotenv.config()
 const JWT_KEY = process.env.JWT_KEY || ""
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
@@ -14,7 +16,8 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
   if (typeof decodedToken === "string")
     return next(HttpError.badRequest("Invalid token"))
 
-  const user = await User.findById(decodedToken.userId)
+  const user = await User.findById(decodedToken.id)
+  console.log(decodedToken)
   if (!user) {
     return next(HttpError.notFound("Account not found"))
   }

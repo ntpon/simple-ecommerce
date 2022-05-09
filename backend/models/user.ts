@@ -28,9 +28,11 @@ const userSchema = new Schema(
     image: {
       public_id: {
         type: String,
+        default: null,
       },
       url: {
         type: String,
+        default: null,
       },
     },
     role: {
