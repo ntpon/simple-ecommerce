@@ -4,17 +4,16 @@ const AuthorSchema = new Schema(
     name: {
       type: String,
       required: true,
-      unique: true,
     },
     image: {
       public_id: {
         type: String,
-        required: true,
+        // required: true,
         default: null,
       },
       url: {
         type: String,
-        required: true,
+        // required: true,
         default: null,
       },
     },
@@ -25,7 +24,6 @@ const AuthorSchema = new Schema(
     slug: {
       type: String,
       required: true,
-      unique: true,
     },
     isRecommend: {
       type: Boolean,
@@ -48,4 +46,4 @@ const AuthorSchema = new Schema(
 
 // userSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model("Author", AuthorSchema)
+export default mongoose.model("Author", AuthorSchema)

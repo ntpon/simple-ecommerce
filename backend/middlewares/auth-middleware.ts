@@ -17,7 +17,6 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     return next(HttpError.badRequest("Invalid token"))
 
   const user = await User.findById(decodedToken.id)
-  console.log(decodedToken)
   if (!user) {
     return next(HttpError.notFound("Account not found"))
   }

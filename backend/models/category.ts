@@ -5,7 +5,6 @@ const CategorySchema = new Schema(
     name: {
       type: String,
       required: true,
-      unique: true,
     },
     description: {
       type: String,
@@ -14,7 +13,6 @@ const CategorySchema = new Schema(
     slug: {
       type: String,
       required: true,
-      unique: true,
     },
     isRecommend: {
       type: Boolean,
@@ -35,4 +33,4 @@ const CategorySchema = new Schema(
   { timestamps: true }
 )
 
-module.exports = mongoose.model("Category", CategorySchema)
+export default mongoose.model("Category", CategorySchema)

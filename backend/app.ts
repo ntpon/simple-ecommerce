@@ -5,9 +5,21 @@ import { v2 as cloudinary } from "cloudinary"
 import helmet from "helmet"
 import cors from "cors"
 import errorHandler from "./utils/handler-error"
+
+// Client
 import authRoute from "./routes/auth-route"
+import cartRoute from "./routes/cart-route"
+import orderRoute from "./routes/order-route"
+import cartItemRoute from "./routes/cart-item-route"
+
 // Admin
 import userRoute from "./routes/admin/user-route"
+import categoryRoute from "./routes/admin/category-route"
+import authorRoute from "./routes/admin/author-route"
+import publisherRoute from "./routes/admin/publisher-route"
+import productRoute from "./routes/admin/product-route"
+import cartItemAdminRoute from "./routes/admin/cart-item-route"
+
 import HttpError from "./utils/http-error"
 
 dotenv.config()
@@ -26,8 +38,16 @@ cloudinary.config({
 })
 
 app.use("/api/v1/auth", authRoute)
+app.use("/api/v1/cart", cartRoute)
+app.use("/api/v1/cart-item", cartItemRoute)
+app.use("/api/v1/order", orderRoute)
 
 app.use("/api/v1/admin/user", userRoute)
+app.use("/api/v1/admin/category", categoryRoute)
+app.use("/api/v1/admin/author", authorRoute)
+app.use("/api/v1/admin/publisher", publisherRoute)
+app.use("/api/v1/admin/product", productRoute)
+app.use("/api/v1/admin/cart-item", cartItemAdminRoute)
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   return next(HttpError.notFound("Could not find this route."))

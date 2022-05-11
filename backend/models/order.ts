@@ -8,11 +8,12 @@ const OrderSchema = new Schema(
       ref: "Cart",
       required: true,
     },
-    user: {
-      type: mongoose.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
+    orderStatus: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "OrderStatus",
+      },
+    ],
     total: {
       type: Number,
       default: 0,
@@ -22,4 +23,4 @@ const OrderSchema = new Schema(
   { timestamps: true }
 )
 
-module.exports = mongoose.model("Order", OrderSchema)
+export default mongoose.model("Order", OrderSchema)

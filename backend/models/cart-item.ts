@@ -2,6 +2,16 @@ import mongoose, { Schema } from "mongoose"
 
 const CartItemSchema = new Schema(
   {
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    cart: {
+      type: mongoose.Types.ObjectId,
+      ref: "Cart",
+      required: true,
+    },
     product: {
       type: mongoose.Types.ObjectId,
       ref: "Product",
@@ -12,6 +22,9 @@ const CartItemSchema = new Schema(
       default: 0,
       min: 0,
       required: true,
+      validate: {
+        validator: Number.isInteger,
+      },
     },
     purchasePrice: {
       type: Number,
@@ -23,16 +36,16 @@ const CartItemSchema = new Schema(
       default: 0,
       required: true,
     },
-    priceWithTax: {
-      type: Number,
-      default: 0,
-      required: true,
-    },
-    totalTax: {
-      type: Number,
-      default: 0,
-      required: true,
-    },
+    // priceWithTax: {
+    //   type: Number,
+    //   default: 0,
+    //   required: true,
+    // },
+    // totalTax: {
+    //   type: Number,
+    //   default: 0,
+    //   required: true,
+    // },
     status: {
       type: String,
       default: "Not processed",
@@ -49,4 +62,4 @@ const CartItemSchema = new Schema(
   { timestamps: true }
 )
 
-module.exports = mongoose.model("CartItem", CartItemSchema)
+export default mongoose.model("CartItem", CartItemSchema)

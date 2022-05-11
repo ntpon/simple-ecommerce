@@ -3,10 +3,6 @@ import mongoose, { Schema } from "mongoose"
 // Product Schema
 const ProductSchema = new Schema(
   {
-    sku: {
-      type: String,
-      required: true,
-    },
     name: {
       type: String,
       trim: true,
@@ -15,24 +11,22 @@ const ProductSchema = new Schema(
     slug: {
       type: String,
       slug: "name",
-      unique: true,
       required: true,
     },
     image: {
       public_id: {
         type: String,
-        required: true,
+        default: null,
       },
       url: {
         type: String,
-        required: true,
+        default: null,
       },
     },
     images: [
       {
         public_id: {
           type: String,
-          required: true,
           default: null,
         },
         url: {
@@ -43,6 +37,7 @@ const ProductSchema = new Schema(
     ],
     description: {
       type: String,
+      required: true,
       trim: true,
     },
     quantity: {
@@ -50,17 +45,19 @@ const ProductSchema = new Schema(
       default: 0,
       required: true,
       min: 0,
+      validate: {
+        validator: Number.isInteger,
+      },
     },
     price: {
       type: Number,
+      default: 0,
+      min: 0,
+      required: true,
     },
     taxable: {
       type: Boolean,
       default: false,
-    },
-    isActive: {
-      type: Boolean,
-      default: true,
     },
     publisher: {
       type: mongoose.Types.ObjectId,
@@ -90,6 +87,10 @@ const ProductSchema = new Schema(
       required: true,
       ref: "User",
     },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
     status: {
       type: String,
       enum: ["on", "off"],
@@ -101,4 +102,4 @@ const ProductSchema = new Schema(
   }
 )
 
-module.exports = mongoose.model("Product", ProductSchema)
+export default mongoose.model("Product", ProductSchema)

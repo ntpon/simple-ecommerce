@@ -1,18 +1,18 @@
 import { NextFunction, Request, Response } from "express"
 import { validationResult } from "express-validator"
-import Category from "../../models/category"
+import Publisher from "../../models/publisher"
 import HttpError from "../../utils/http-error"
 import { strToSlug } from "../../utils/slug"
 
-export const getCategory = async (
+export const getPublishers = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const categories = await Category.find({ status: "on" })
+    const publishers = await Publisher.find({ status: "on" })
     return res.status(200).json({
-      data: categories,
+      data: publishers,
     })
   } catch (error) {
     return next(
@@ -20,22 +20,22 @@ export const getCategory = async (
     )
   }
 }
-export const getCategoryById = async (
+export const getPublisherById = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const { id } = req.params
   try {
-    const category = await Category.findById(id)
+    const publisher = await Publisher.findById(id)
 
-    if (!category || category.status === "off") {
+    if (!publisher || publisher.status === "off") {
       return next(HttpError.notFound("ไม่พบข้อมูล"))
     }
     res.status(200).json({
       status: "success",
       data: {
-        category,
+        publisher,
       },
     })
   } catch (error) {
@@ -45,7 +45,7 @@ export const getCategoryById = async (
   }
 }
 
-export const createCategory = async (
+export const createPublisher = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -58,19 +58,19 @@ export const createCategory = async (
   }
   const { name, description } = req.body
   try {
-    const category = await Category.findOne({ status: "on", name: name })
-    if (category) {
+    const publisher = await Publisher.findOne({ status: "on", name: name })
+    if (publisher) {
       return next(
-        HttpError.badRequest("ชื่อประเภทสินค้าซ้ำ กรุณาเปลี่ยนชื่อประเภทสินค้า")
+        HttpError.badRequest("ชื่อสำนักพิมพ์ซ้ำ กรุณาเปลี่ยนชื่อสำนักพิมพ์")
       )
     }
-    const newCategory = new Category({
+    const newPublisher = new Publisher({
       name,
       description,
       slug: strToSlug(name),
       creator: req.user.id,
     })
-    await newCategory.save()
+    await newPublisher.save()
     res.status(201).json({ status: "success", message: "สร้างข้อมูลสำเร็จ" })
   } catch (error) {
     return next(
@@ -79,7 +79,7 @@ export const createCategory = async (
   }
 }
 
-export const updateCategory = async (
+export const updatePublisher = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -93,51 +93,51 @@ export const updateCategory = async (
   const { id } = req.params
   const { name, description } = req.body
   try {
-    const category = await Category.findById(id)
-    if (!category || category.status === "off") {
-      return next(HttpError.notFound("ไม่พบประเภทสินค้า"))
+    const publisher = await Publisher.findById(id)
+    if (!publisher || publisher.status === "off") {
+      return next(HttpError.notFound("ไม่พบสำนักพิมพ์"))
     }
 
-    const isNameCategoryDuplicate = await Category.findOne({
+    const isNamePublisherDuplicate = await Publisher.findOne({
       name: name,
       status: "on",
       _id: {
-        $ne: category.id,
+        $ne: publisher.id,
       },
     })
 
-    if (isNameCategoryDuplicate) {
+    if (isNamePublisherDuplicate) {
       return next(
-        HttpError.badRequest("ชื่อประเภทสินค้าซ้ำ กรุณาเปลี่ยนชื่อประเภทสินค้า")
+        HttpError.badRequest("ชื่อสำนักพิมพ์ซ้ำ กรุณาเปลี่ยนชื่อสำนักพิมพ์")
       )
     }
 
-    category.name = name
-    category.description = description
-    category.slug = strToSlug(name)
-    category.creator = req.user.id
+    publisher.name = name
+    publisher.description = description
+    publisher.slug = strToSlug(name)
+    publisher.creator = req.user.id
 
-    await category.save()
+    await publisher.save()
     res.status(201).json({ status: "success", message: "แก้ไขข้อมูลสำเร็จ" })
   } catch (error) {
     return next(HttpError.internal("แก้ไขข้อมูลไม่สำเร็จ กรุณาลองใหม่อีกครั้ง"))
   }
 }
 
-export const deleteCategoryById = async (
+export const deletePublisherById = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const { id } = req.params
   try {
-    const category = await Category.findById(id)
-    if (!category || category.status === "off") {
+    const publisher = await Publisher.findById(id)
+    if (!publisher || publisher.status === "off") {
       return next(HttpError.badRequest("ไม่มีข้อมูลอยู่ในระบบ"))
     }
 
-    category.status = "off"
-    category.save()
+    publisher.status = "off"
+    publisher.save()
 
     return res.status(200).json({
       status: "success",

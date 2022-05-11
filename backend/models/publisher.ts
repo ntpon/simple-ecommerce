@@ -36,4 +36,4 @@ const PublisherSchema = new Schema(
 
 // userSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model("Publisher", PublisherSchema)
+export default mongoose.model("Publisher", PublisherSchema)

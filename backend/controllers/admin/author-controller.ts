@@ -1,18 +1,20 @@
 import { NextFunction, Request, Response } from "express"
 import { validationResult } from "express-validator"
-import Category from "../../models/category"
 import HttpError from "../../utils/http-error"
+import bcrypt from "bcryptjs"
+import { v2 as cloudinary } from "cloudinary"
 import { strToSlug } from "../../utils/slug"
+import Author from "../../models/author"
 
-export const getCategory = async (
+export const getAuthors = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const categories = await Category.find({ status: "on" })
+    const authors = await Author.find({ status: "on" })
     return res.status(200).json({
-      data: categories,
+      data: authors,
     })
   } catch (error) {
     return next(
@@ -20,22 +22,22 @@ export const getCategory = async (
     )
   }
 }
-export const getCategoryById = async (
+export const getAuthorById = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const { id } = req.params
   try {
-    const category = await Category.findById(id)
-
-    if (!category || category.status === "off") {
+    const author = await Author.findById(id)
+    if (!author || author.status === "off") {
       return next(HttpError.notFound("ไม่พบข้อมูล"))
     }
-    res.status(200).json({
+
+    return res.status(200).json({
       status: "success",
       data: {
-        category,
+        author,
       },
     })
   } catch (error) {
@@ -45,7 +47,7 @@ export const getCategoryById = async (
   }
 }
 
-export const createCategory = async (
+export const createAuthor = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -58,19 +60,32 @@ export const createCategory = async (
   }
   const { name, description } = req.body
   try {
-    const category = await Category.findOne({ status: "on", name: name })
-    if (category) {
+    const author = await Author.findOne({ status: "on", name: name })
+    if (author) {
       return next(
-        HttpError.badRequest("ชื่อประเภทสินค้าซ้ำ กรุณาเปลี่ยนชื่อประเภทสินค้า")
+        HttpError.badRequest("ชื่อผู้เขียนซ้ำ กรุณาเปลี่ยนชื่อผู้เขียน")
       )
     }
-    const newCategory = new Category({
+    const newAuthor = new Author({
       name,
       description,
       slug: strToSlug(name),
       creator: req.user.id,
     })
-    await newCategory.save()
+
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: process.env.FOLDER_NAME + "/author",
+        width: 300,
+        crop: "scale",
+      })
+      newAuthor.image = {
+        public_id: result.public_id,
+        url: result.secure_url,
+      }
+    }
+
+    await newAuthor.save()
     res.status(201).json({ status: "success", message: "สร้างข้อมูลสำเร็จ" })
   } catch (error) {
     return next(
@@ -79,7 +94,7 @@ export const createCategory = async (
   }
 }
 
-export const updateCategory = async (
+export const updateAuthor = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -93,51 +108,57 @@ export const updateCategory = async (
   const { id } = req.params
   const { name, description } = req.body
   try {
-    const category = await Category.findById(id)
-    if (!category || category.status === "off") {
-      return next(HttpError.notFound("ไม่พบประเภทสินค้า"))
+    const author = await Author.findById(id)
+    if (!author || author.status === "off") {
+      return next(HttpError.notFound("ไม่พบข้อมูล"))
     }
 
-    const isNameCategoryDuplicate = await Category.findOne({
+    const isNameAuthorDuplicate = await Author.findOne({
       name: name,
       status: "on",
       _id: {
-        $ne: category.id,
+        $ne: author.id,
       },
     })
-
-    if (isNameCategoryDuplicate) {
+    if (isNameAuthorDuplicate) {
       return next(
-        HttpError.badRequest("ชื่อประเภทสินค้าซ้ำ กรุณาเปลี่ยนชื่อประเภทสินค้า")
+        HttpError.badRequest("ชื่อผู้เขียนซ้ำ กรุณาเปลี่ยนชื่อผู้เขียน")
       )
     }
 
-    category.name = name
-    category.description = description
-    category.slug = strToSlug(name)
-    category.creator = req.user.id
-
-    await category.save()
+    author.name = name
+    author.description = description
+    author.slug = strToSlug(name)
+    author.creator = req.user.id
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: process.env.FOLDER_NAME + "/image",
+        width: 300,
+        crop: "scale",
+      })
+      author.image = { public_id: result.public_id, url: result.secure_url }
+    }
+    await author.save()
     res.status(201).json({ status: "success", message: "แก้ไขข้อมูลสำเร็จ" })
   } catch (error) {
     return next(HttpError.internal("แก้ไขข้อมูลไม่สำเร็จ กรุณาลองใหม่อีกครั้ง"))
   }
 }
 
-export const deleteCategoryById = async (
+export const deleteAuthorById = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const { id } = req.params
   try {
-    const category = await Category.findById(id)
-    if (!category || category.status === "off") {
+    const author = await Author.findById(id)
+    if (!author || author.status === "off") {
       return next(HttpError.badRequest("ไม่มีข้อมูลอยู่ในระบบ"))
     }
 
-    category.status = "off"
-    category.save()
+    author.status = "off"
+    author.save()
 
     return res.status(200).json({
       status: "success",
