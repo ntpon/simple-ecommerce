@@ -7,21 +7,32 @@ type ModalProps = {
   open: boolean
   children: React.ReactNode
   onClose: () => void
+  styles?: {}
 }
 
-function Modal({ open, children, onClose }: ModalProps) {
+function Modal({ open, children, onClose, styles }: ModalProps) {
   const selector = document.getElementById("backdrop-hook")!
   document.body.style.overflow = "hidden"
   const onCloseHandler = () => {
     document.body.style.overflow = ""
     onClose()
   }
-  return ReactDOM.createPortal(
-    // <CSSTransition in={open} timeout={500} unmountOnExit classNames='hello'>
+  let modal = (
     <>
       <Backdrop onClick={onCloseHandler} />
-      <ModalContainer>{children}</ModalContainer>
-    </>,
+      <ModalContainer className='modal-container' style={styles}>
+        {children}
+      </ModalContainer>
+    </>
+  )
+
+  if (!open) {
+    modal = <></>
+  }
+
+  return ReactDOM.createPortal(
+    // <CSSTransition in={open} timeout={500} unmountOnExit classNames='hello'>
+    modal,
     // </CSSTransition>,
     selector
   )

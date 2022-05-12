@@ -4,6 +4,7 @@
   --color-danger: #e74c3c;
   --color-primary-border: #dce4ec;
   --color-body-text: #82918c;
+  --color-primary-loading: #fff;
 }
 * {
   padding: 0;

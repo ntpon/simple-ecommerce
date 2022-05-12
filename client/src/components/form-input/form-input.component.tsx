@@ -9,7 +9,8 @@ import {
 type FormInputProps = {
   label: string
   inputType?: "input" | "textarea"
-} & InputHTMLAttributes<HTMLInputElement>
+} & InputHTMLAttributes<HTMLInputElement> &
+  InputHTMLAttributes<HTMLTextAreaElement>
 
 function FormInput({
   inputType = "input",
@@ -24,7 +25,7 @@ function FormInput({
       )}
 
       {inputType === "textarea" && (
-        <InputTextArea id={label} rows={3}></InputTextArea>
+        <InputTextArea id={label} rows={3} {...otherProps}></InputTextArea>
       )}
     </FormInputContainer>
   )

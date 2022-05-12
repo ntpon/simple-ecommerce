@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 
+export const FormManage = styled.form``
+
 export const Form = styled.form`
   display: flex;
 `

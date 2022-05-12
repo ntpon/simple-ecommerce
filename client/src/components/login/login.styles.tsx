@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-export const LoginContainer = styled.div`
+export const LoginContainer = styled.form`
   h2 {
     font-size: 24px;
     text-align: center;

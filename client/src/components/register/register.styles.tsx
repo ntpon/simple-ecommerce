@@ -1,5 +1,5 @@
 import styled from "styled-components"
-export const RegisterContainer = styled.div`
+export const RegisterContainer = styled.form`
   h2 {
     font-size: 24px;
     text-align: center;

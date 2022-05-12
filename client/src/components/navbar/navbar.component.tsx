@@ -15,15 +15,16 @@ import {
   NavbarSearchForm,
   Text,
 } from "./navbar.styles"
-import Flags from "country-flag-icons/react/3x2"
-
 import { BiSearch, BiCartAlt, BiUser } from "react-icons/bi"
 import { AiOutlineHome } from "react-icons/ai"
+import { BiLogOutCircle } from "react-icons/bi"
 import { ImBooks } from "react-icons/im"
-import Icon from "../icon/icon.component"
 import Login from "../login/login.component"
 import Register from "../register/register.component"
 import { useNavigate } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../../store/store"
+import { logout, reset } from "../../store/auth/auth.slice"
+import { toast } from "react-toastify"
 
 function Navbar() {
   const navigate = useNavigate()
@@ -31,10 +32,11 @@ function Navbar() {
   const [showLogin, setShowLogin] = useState(false)
   const [showRegister, setShowRegister] = useState(false)
   const [isSticky, setIsSticky] = useState(false)
+  const dispatch = useAppDispatch()
+  const { user } = useAppSelector((state) => state.auth)
 
   useEffect(() => {
     window.addEventListener("scroll", stickNavbar)
-
     return () => {
       window.removeEventListener("scroll", stickNavbar)
     }
@@ -98,13 +100,26 @@ function Navbar() {
               <BiCartAlt />
               <span>ตระกร้า</span>
             </MenuLink>
-            <button onClick={() => setShowLogin(true)}>
-              <BiUser />
-              <span>บัญชีของคุณ</span>
-            </button>
-            {/* <Icon>
-            <Flags.TH></Flags.TH>
-          </Icon> */}
+            {!user && (
+              <button onClick={() => setShowLogin(true)}>
+                <BiUser />
+                <span>บัญชีของคุณ</span>
+              </button>
+            )}
+            {user && (
+              <>
+                <MenuLink
+                  to={`${user.user.role === "admin" ? "/admin" : "/member"}`}
+                >
+                  <BiUser />
+                  <span>{user.user.firstName}</span>
+                </MenuLink>
+                <button onClick={() => dispatch(logout())}>
+                  <BiLogOutCircle />
+                  <span>ออกจากระบบ</span>
+                </button>
+              </>
+            )}
           </MenuOtherContainer>
         </NavbarMenuContainer>
       </NavbarContainer>

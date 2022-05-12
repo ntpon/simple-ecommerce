@@ -10,7 +10,7 @@ import Security from "./pages/memeber/security/security.component"
 import Support from "./pages/memeber/support/support.component"
 import ShopDetail from "./pages/shop-detail/shop-detail.component"
 import Shop from "./pages/shop/shop.component"
-
+import { ToastContainer } from "react-toastify"
 import UserManage from "./pages/admin/user-manage/user-manage.component"
 import CategoryManage from "./pages/admin/category-manage/category-manage.component"
 import AuthorManage from "./pages/admin/author-manage/author-manage.component"
@@ -30,8 +30,10 @@ import PublisherCreate from "./pages/admin/publisher-create/publisher-create.com
 import PublisherEdit from "./pages/admin/publisher-edit/publisher-edit.component"
 import OrderStatusShow from "./pages/admin/order-status-show/order-status-show"
 import Search from "./pages/search/search.component"
+import useAuth from "./hooks/use-auth.hook"
 
 function App() {
+  useAuth()
   return (
     <div className='App'>
       <Routes>
@@ -71,6 +73,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
+      <ToastContainer />
     </div>
   )
 }
