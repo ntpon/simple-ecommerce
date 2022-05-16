@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import ImageUploading, { ImageListType } from "react-images-uploading"
 import Avatar from "../avatar/avatar.component"
 import Button from "../button/button.component"
@@ -11,6 +12,7 @@ type MultiImageUploadProps = {
   ) => void
   avatarRadius?: number
   defaultImage?: string
+  // setCurrentImages?: () => void
 }
 
 function MultiImageUpload({
@@ -18,7 +20,8 @@ function MultiImageUpload({
   defaultImage,
   onChange,
   avatarRadius,
-}: MultiImageUploadProps) {
+}: // setCurrentImages,
+MultiImageUploadProps) {
   return (
     <ImageUploading multiple maxNumber={4} value={images} onChange={onChange}>
       {({
@@ -37,7 +40,7 @@ function MultiImageUpload({
           )}
           <ImageList>
             {imageList.map((image, index) => (
-              <ImageItem>
+              <ImageItem key={index}>
                 <Avatar
                   image={image.dataURL}
                   key={index}
@@ -45,7 +48,7 @@ function MultiImageUpload({
                 />
                 <Button
                   style={isDragging ? { color: "red" } : undefined}
-                  onClick={() => onImageRemove(0)}
+                  onClick={() => onImageRemove(index)}
                   {...dragProps}
                 >
                   <span>ยกเลิกรูปภาพ</span>

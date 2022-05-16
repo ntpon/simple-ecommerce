@@ -42,8 +42,8 @@ router.patch(
   auth,
   authRole("admin"),
   imageUpload.fields([
-    { name: "images", maxCount: 4 },
     { name: "image", maxCount: 2 },
+    { name: "images", maxCount: 4 },
   ]),
   [
     check("name").not().isEmpty(),

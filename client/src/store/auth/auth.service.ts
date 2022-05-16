@@ -1,5 +1,5 @@
 import http from "../../utils/http.utils"
-import { UserData, UserLogin } from "./auth.type"
+import { Password, Profile, UserData, UserLogin } from "./auth.type"
 
 const API_URL = "/api/v1/auth"
 
@@ -21,10 +21,27 @@ const login = async (userData: UserLogin) => {
 
 const logout = () => localStorage.removeItem("user")
 
+const getProfile = async () => {
+  const response = await http.get(API_URL + "/me")
+  return response.data
+}
+
+const updateProfile = async (userData: Profile) => {
+  const response = await http.patch(API_URL + "/me", userData)
+  return response.data
+}
+
+const updatePassword = async (passwordData: Password) => {
+  const response = await http.patch(API_URL + "/password", passwordData)
+  return response.data
+}
 const authService = {
   register,
   logout,
   login,
+  getProfile,
+  updateProfile,
+  updatePassword,
 }
 
 export default authService

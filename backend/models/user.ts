@@ -50,6 +50,9 @@ const userSchema = new Schema(
       enum: ["on", "off"],
       default: "on",
     },
+    address: {
+      type: String,
+    },
   },
   { timestamps: true }
 )

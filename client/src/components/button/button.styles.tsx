@@ -3,7 +3,7 @@ export const BaseButton = styled.button`
   margin: 5px;
   min-width: 150px;
   width: auto;
-  height: 45px;
+  min-height: 45px;
   letter-spacing: 0.5px;
   line-height: 50px;
   padding: 15px 20px;
@@ -19,6 +19,7 @@ export const BaseButton = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 5px;
+  line-height: 1.2;
   &:hover {
     background-color: var(--color-primary);
     color: #fff;

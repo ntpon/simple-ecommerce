@@ -137,9 +137,7 @@ export const addToCart = async (
 
     await sess.commitTransaction()
 
-    return res
-      .status(200)
-      .json({ status: "success", message: "สั่งซื้อสินค้าสำเร็จ" })
+    res.status(200).json({ status: "success", message: "สั่งซื้อสินค้าสำเร็จ" })
   } catch (error) {
     await sess.abortTransaction()
     return next(HttpError.internal("ทำรายการไม่สำเร็จ กรุณาลองใหม่อีกครั้ง"))

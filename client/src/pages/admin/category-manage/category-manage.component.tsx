@@ -8,7 +8,6 @@ import {
   TableRow,
   Thead,
 } from "../../../components/table/table.styles"
-import { books } from "../../../book-data"
 import { Link } from "react-router-dom"
 import { BiEdit } from "react-icons/bi"
 import { BsTrash } from "react-icons/bs"
@@ -22,7 +21,6 @@ import {
 import IconButton from "../../../components/icon-button/icon-button.component"
 import { toast } from "react-toastify"
 import ConfirmModal from "../../../components/confirm-modal/confirm-modal.component"
-import Spinner from "../../../components/spinner/spinner.component"
 import Skeleton from "react-loading-skeleton"
 
 function CategoryManage() {
@@ -60,11 +58,13 @@ function CategoryManage() {
 
   return (
     <>
-      <ConfirmModal
-        showModal={showModal}
-        onClose={() => setShowModal(false)}
-        onSuccess={onSuccess}
-      />
+      {showModal && (
+        <ConfirmModal
+          showModal={showModal}
+          onClose={() => setShowModal(false)}
+          onSuccess={onSuccess}
+        />
+      )}
       <HeaderManage
         text='จัดการประเภทสินค้า'
         link='/admin/category/create'

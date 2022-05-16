@@ -9,7 +9,7 @@ export const getCartItems = async (
   res: Response,
   next: NextFunction
 ) => {
-  const cartItems = await CartItem.find()
+  const cartItems = await CartItem.find().populate(["product", "user"])
   return res.status(200).json({ status: "success", data: { cartItems } })
 }
 
@@ -19,7 +19,7 @@ export const getCartItemsById = async (
   next: NextFunction
 ) => {
   const { id } = req.params
-  const cartItem = await CartItem.findById(id)
+  const cartItem = await CartItem.findById(id).populate(["product", "user"])
   if (!cartItem) {
     return next(HttpError.badRequest("ไม่พบข้อมูล"))
   }

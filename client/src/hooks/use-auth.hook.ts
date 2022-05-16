@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 import { useAppSelector } from "../store/store"
 import { setHttpToken } from "../utils/http.utils"
 
@@ -7,7 +7,7 @@ function useAuth() {
   const [checkingStatus, setCheckingStatus] = useState(true)
   const { user } = useAppSelector((state) => state.auth)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (user) {
       setLoggedIn(true)
     } else {

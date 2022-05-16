@@ -6,6 +6,9 @@ export const getMyCartItem = async (
   res: Response,
   next: NextFunction
 ) => {
-  const cartItems = await CartItem.find({ user: req.user.id })
-  return res.status(200).json({ status: "success", cartItems })
+  const cartItems = await CartItem.find({ user: req.user.id }).populate([
+    "product",
+    "user",
+  ])
+  return res.status(200).json({ status: "success", data: { cartItems } })
 }

@@ -3,9 +3,7 @@ import styled from "styled-components"
 
 export const FormManage = styled.form``
 
-export const Form = styled.form`
-  display: flex;
-`
+export const Form = styled.form``
 export const FormInputContainer = styled.div`
   width: 100%;
   display: flex;

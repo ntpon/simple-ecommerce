@@ -36,7 +36,6 @@ function CategoryForm({ isEdit, id = "" }: CategoryFormProps) {
 
   useEffect(() => {
     if (isEdit && category) {
-      console.log(category)
       setName(category.name)
       setDescription(category.description)
     }
@@ -50,7 +49,6 @@ function CategoryForm({ isEdit, id = "" }: CategoryFormProps) {
     if (isSuccess) {
       toast.success(message)
       dispatch(reset())
-      navigate("/admin/category")
     }
   }, [isError, isSuccess, message, dispatch])
 

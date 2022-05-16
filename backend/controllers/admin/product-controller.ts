@@ -28,7 +28,11 @@ export const getProductById = async (
 ) => {
   const { id } = req.params
   try {
-    const product = await Product.findById(id)
+    const product = await Product.findById(id).populate([
+      "categories",
+      "authors",
+      "publisher",
+    ])
     if (!product || product.status === "off") {
       return next(HttpError.notFound("ไม่พบข้อมูล"))
     }
@@ -164,13 +168,21 @@ export const updateProduct = async (
     // )
     product.publisher = publisher
 
-    product.images = []
+    // product.images = []
     product.categories = []
     product.authors = []
+
     if (currentImagesArray && currentImagesArray.length > 0) {
-      for (const imageItem of currentImagesArray) {
-        product.categories.push(imageItem)
+      for (let i = 0; i < product.images.length; i++) {
+        if (!currentImagesArray.includes(product.images[i].public_id)) {
+          // console.log("delete")
+          product.images = product.images.filter(
+            (p: any) => p.public_id !== product.images[i].public_id
+          )
+        }
       }
+    } else {
+      product.images = []
     }
 
     for (const category of categories) {

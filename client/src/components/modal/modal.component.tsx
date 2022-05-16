@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import ReactDOM from "react-dom"
 import { Backdrop, ModalContainer } from "./modal.styles"
 // import { CSSTransition } from "react-transition-group"
@@ -17,6 +18,11 @@ function Modal({ open, children, onClose, styles }: ModalProps) {
     document.body.style.overflow = ""
     onClose()
   }
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [])
   let modal = (
     <>
       <Backdrop onClick={onCloseHandler} />

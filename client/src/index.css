@@ -11,6 +11,7 @@
   margin: 0;
   box-sizing: border-box;
   font-family: "Montserrat", "Mitr", sans-serif;
+  font-weight: 300;
 }
 
 a {
@@ -18,6 +19,8 @@ a {
   color: inherit;
 }
 
+body {
+}
 .form-select {
   width: 100%;
 }

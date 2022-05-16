@@ -8,6 +8,7 @@ import {
   updateUser,
 } from "../../controllers/admin/user-controller"
 import { auth, authRole } from "../../middlewares/auth-middleware"
+import imageUpload from "../../middlewares/image-upload"
 const router = express.Router()
 
 router.get("/", auth, authRole("admin"), getUsers)
@@ -18,7 +19,7 @@ router.post(
   "/",
   auth,
   authRole("admin"),
-  //   imageUpload.single("avatar"),
+  imageUpload.single("image"),
   [
     check("firstName").not().isEmpty(),
     check("lastName").not().isEmpty(),
@@ -34,7 +35,7 @@ router.patch(
   "/:id",
   auth,
   authRole("admin"),
-  //   imageUpload.single("avatar"),
+  imageUpload.single("image"),
   [
     check("firstName").not().isEmpty(),
     check("lastName").not().isEmpty(),

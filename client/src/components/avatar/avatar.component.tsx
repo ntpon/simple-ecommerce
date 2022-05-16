@@ -1,13 +1,13 @@
 import { AvatarContainer } from "./avatar.styles"
-import img from "../../assets/images/default-avatar.png"
+import imgDefault from "../../assets/images/default-avatar.png"
 type AvatarProps = {
   image?: string
   avatarRadius?: number
 }
-function Avatar({ image = img, avatarRadius }: AvatarProps) {
+function Avatar({ image = imgDefault, avatarRadius }: AvatarProps) {
   return (
     <AvatarContainer avatarRadius={avatarRadius}>
-      <img src={image} alt='' />
+      {image ? <img src={image} alt='' /> : <img src={imgDefault} alt='' />}
     </AvatarContainer>
   )
 }

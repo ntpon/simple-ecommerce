@@ -25,7 +25,7 @@ export const createCategory = createAsyncThunk(
 )
 export const getCategories = createAsyncThunk(
   "category/getAll",
-  async (categoryData, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
       return await categoryService.getCategories()
     } catch (error) {
@@ -94,7 +94,7 @@ export const categorySlice = createSlice({
     })
     builder.addCase(getCategories.fulfilled, (state, action) => {
       state.isLoading = false
-      state.categories = action.payload.data.data
+      state.categories = action.payload.data
     })
     builder.addCase(getCategories.rejected, (state, action) => {
       state.isLoading = false
@@ -145,7 +145,7 @@ export const categorySlice = createSlice({
     builder.addCase(deleteCategory.fulfilled, (state, action) => {
       state.isLoading = false
       state.isSuccess = true
-      state.message = action.payload as string
+      state.message = action.payload.message as string
     })
     builder.addCase(deleteCategory.rejected, (state, action) => {
       state.isLoading = false

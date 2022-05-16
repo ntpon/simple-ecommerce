@@ -8,13 +8,64 @@ import {
   TableRow,
   Thead,
 } from "../../../components/table/table.styles"
-import { books } from "../../../book-data"
 import { Link } from "react-router-dom"
 import { BiEdit } from "react-icons/bi"
 import { BsTrash } from "react-icons/bs"
+import ConfirmModal from "../../../components/confirm-modal/confirm-modal.component"
+import { useAppDispatch, useAppSelector } from "../../../store/store"
+import { useEffect, useState } from "react"
+import {
+  deleteProduct,
+  getProducts,
+  reset,
+} from "../../../store/product/product.slice"
+import { toast } from "react-toastify"
+import Skeleton from "react-loading-skeleton"
+import IconButton from "../../../components/icon-button/icon-button.component"
+import Avatar from "../../../components/avatar/avatar.component"
+import imgProduct from "../../../assets/images/default-product.png"
 function ProductManage() {
+  const dispatch = useAppDispatch()
+  const [showModal, setShowModal] = useState(false)
+  const [authorToDelete, setAuthorToDelete] = useState("")
+  const { products, isLoading, message, isSuccess, isError } = useAppSelector(
+    (state) => state.product
+  )
+  useEffect(() => {
+    dispatch(getProducts())
+  }, [])
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(message)
+      dispatch(getProducts())
+      dispatch(reset())
+    }
+    if (isError) {
+      toast.error(message)
+      dispatch(reset())
+    }
+  }, [isSuccess, isError])
+
+  const handleDeleteButton = (id: string) => {
+    setAuthorToDelete(id)
+    setShowModal(true)
+  }
+
+  const onSuccess = () => {
+    dispatch(deleteProduct(authorToDelete))
+    setShowModal(false)
+  }
+
   return (
-    <div>
+    <>
+      {showModal && (
+        <ConfirmModal
+          showModal={showModal}
+          onClose={() => setShowModal(false)}
+          onSuccess={onSuccess}
+        />
+      )}
       <HeaderManage
         text='จัดการสินค้า'
         link='/admin/product/create'
@@ -26,30 +77,51 @@ function ProductManage() {
             <TableColumnHead>รูปภาพ</TableColumnHead>
             <TableColumnHead>สินค้า</TableColumnHead>
             <TableColumnHead>จำนวนที่มี/จำนวนทั้งหมด</TableColumnHead>
-            <TableColumnHead>สถานะ</TableColumnHead>
             <TableColumnHead>จัดการ</TableColumnHead>
           </TableRow>
         </Thead>
         <TableBody>
-          {books.map((book) => (
-            <TableRow>
+          {products?.map((product) => (
+            <TableRow key={product._id}>
               <TableColumnItem>
-                <img src={book.thumbnailUrl} alt='' />
+                {isLoading ? (
+                  <Skeleton />
+                ) : (
+                  <Avatar
+                    image={product.image?.url ? product.image?.url : imgProduct}
+                    avatarRadius={0}
+                  />
+                )}
               </TableColumnItem>
-              <TableColumnItem>{book.title}</TableColumnItem>
-              <TableColumnItem>10/20</TableColumnItem>
-              <TableColumnItem>ใช้งาน</TableColumnItem>
+              <TableColumnItem>
+                {isLoading ? <Skeleton /> : product.name}
+              </TableColumnItem>
+              <TableColumnItem>
+                {isLoading ? <Skeleton /> : product.name}
+              </TableColumnItem>
               <TableColumnAction>
-                <Link to='/admin/product/edit/12'>
-                  <BiEdit />
-                </Link>
-                <BsTrash />
+                {isLoading ? (
+                  <Skeleton />
+                ) : (
+                  <>
+                    <Link to={`/admin/product/edit/${product._id}`}>
+                      <BiEdit />
+                    </Link>
+                    <IconButton
+                      onClick={() => {
+                        handleDeleteButton(product._id)
+                      }}
+                    >
+                      <BsTrash />
+                    </IconButton>
+                  </>
+                )}
               </TableColumnAction>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-    </div>
+    </>
   )
 }
 export default ProductManage

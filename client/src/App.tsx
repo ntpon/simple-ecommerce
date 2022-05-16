@@ -18,7 +18,7 @@ import ProductManage from "./pages/admin/product-manage/product-manage.component
 import AdminLayout from "./components/layout/admin/admin-layout.component"
 import OrderStatusManage from "./pages/admin/order-status-manage/order-status-manage.component"
 import AuthorCreate from "./pages/admin/author-create/author-create.component"
-import AuthorEdit from "./pages/admin/author-edit/author-create.component"
+import AuthorEdit from "./pages/admin/author-edit/author-edit.component"
 import ProductCreate from "./pages/admin/product-create/product-create.component"
 import ProductEdit from "./pages/admin/product-edit/product-edit.component"
 import CategoryEdit from "./pages/admin/category-edit/category-edit.component"
