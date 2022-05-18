@@ -5,6 +5,7 @@ import {
   TableColumnAction,
   TableColumnHead,
   TableColumnItem,
+  TableContainer,
   TableRow,
   Thead,
 } from "../../../components/table/table.styles"
@@ -62,41 +63,43 @@ function PublisherManage() {
         link='/admin/publisher/create'
         label='สร้างใหม่'
       />
-      <Table>
-        <Thead>
-          <TableRow>
-            <TableColumnHead>ชื่อสำนักพิมพ์</TableColumnHead>
-            <TableColumnHead>จัดการ</TableColumnHead>
-          </TableRow>
-        </Thead>
-        <TableBody>
-          {publishers?.map((publisher) => (
-            <TableRow key={publisher._id}>
-              <TableColumnItem>
-                {isLoading ? <Skeleton /> : publisher.name}
-              </TableColumnItem>
-              <TableColumnAction>
-                {isLoading ? (
-                  <Skeleton />
-                ) : (
-                  <>
-                    <Link to={`/admin/publisher/edit/${publisher._id}`}>
-                      <BiEdit />
-                    </Link>
-                    <IconButton
-                      onClick={() => {
-                        handleDeleteButton(publisher._id)
-                      }}
-                    >
-                      <BsTrash />
-                    </IconButton>
-                  </>
-                )}
-              </TableColumnAction>
+      <TableContainer>
+        <Table>
+          <Thead>
+            <TableRow>
+              <TableColumnHead>ชื่อสำนักพิมพ์</TableColumnHead>
+              <TableColumnHead>จัดการ</TableColumnHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </Thead>
+          <TableBody>
+            {publishers?.map((publisher) => (
+              <TableRow key={publisher._id}>
+                <TableColumnItem>
+                  {isLoading ? <Skeleton /> : publisher.name}
+                </TableColumnItem>
+                <TableColumnAction>
+                  {isLoading ? (
+                    <Skeleton />
+                  ) : (
+                    <>
+                      <Link to={`/admin/publisher/edit/${publisher._id}`}>
+                        <BiEdit />
+                      </Link>
+                      <IconButton
+                        onClick={() => {
+                          handleDeleteButton(publisher._id)
+                        }}
+                      >
+                        <BsTrash />
+                      </IconButton>
+                    </>
+                  )}
+                </TableColumnAction>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   )
 }

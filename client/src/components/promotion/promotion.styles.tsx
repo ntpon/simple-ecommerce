@@ -15,6 +15,13 @@ export const LeftContainer = styled.div`
   display: flex;
   width: 50%;
   padding: 10px;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 5px;
+    img {
+      max-height: 100%;
+    }
+  }
 `
 export const RightContainer = styled.div`
   display: flex;
@@ -24,5 +31,8 @@ export const RightContainer = styled.div`
   img {
     max-height: 50%;
     padding: 10px;
+  }
+  @media (max-width: 768px) {
+    display: none;
   }
 `

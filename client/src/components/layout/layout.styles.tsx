@@ -6,4 +6,9 @@ export const LayoutContainer = styled.div`
     padding: 25px;
     padding-top: 10px;
   }
+  @media (max-width: 768px) {
+    main {
+      padding: 10px;
+    }
+  }
 `

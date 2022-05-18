@@ -14,6 +14,7 @@ import {
   NavbarSearchInput,
   NavbarSearchForm,
   Text,
+  CartBadge,
 } from "./navbar.styles"
 import { BiSearch, BiCartAlt, BiUser } from "react-icons/bi"
 import { AiOutlineHome } from "react-icons/ai"
@@ -24,7 +25,6 @@ import Register from "../register/register.component"
 import { useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../store/store"
 import { logout, reset } from "../../store/auth/auth.slice"
-import { toast } from "react-toastify"
 
 function Navbar() {
   const navigate = useNavigate()
@@ -34,6 +34,7 @@ function Navbar() {
   const [isSticky, setIsSticky] = useState(false)
   const dispatch = useAppDispatch()
   const { user } = useAppSelector((state) => state.auth)
+  const { totalProducts } = useAppSelector((state) => state.checkout)
 
   useEffect(() => {
     window.addEventListener("scroll", stickNavbar)
@@ -48,6 +49,7 @@ function Navbar() {
       return
     }
     navigate(`/search?value=${search}`)
+    setSearch("")
   }
 
   const stickNavbar = () => {
@@ -57,6 +59,13 @@ function Navbar() {
     }
   }
 
+  const handleOnClickSearch = (search: string) => {
+    if (!search.trim()) {
+      return
+    }
+    navigate(`/search?value=${search}`)
+    setSearch("")
+  }
   return (
     <>
       <NavbarContainer>
@@ -77,9 +86,18 @@ function Navbar() {
             </NavbarSearchForm>
             <NavbarSearchIconContainer>
               <Text>
-                คำที่ถูกค้นหาบ่อย : <span>สถาบันสถาปนา,</span>
-                <span>นิยายวิทยาศาสตร์ไทย,</span>
-                <span>Sci-Fi</span>
+                คำที่ถูกค้นหาบ่อย :{" "}
+                <span onClick={() => handleOnClickSearch("สถาบันสถาปนา")}>
+                  สถาบันสถาปนา,
+                </span>
+                <span
+                  onClick={() => handleOnClickSearch("นิยายวิทยาศาสตร์ไทย")}
+                >
+                  นิยายวิทยาศาสตร์ไทย,
+                </span>
+                <span onClick={() => handleOnClickSearch("Sci-Fi")}>
+                  Sci-Fi
+                </span>
               </Text>
             </NavbarSearchIconContainer>
           </NavbarSearchContainer>
@@ -99,6 +117,7 @@ function Navbar() {
             <MenuLink to='/checkout'>
               <BiCartAlt />
               <span>ตระกร้า</span>
+              <CartBadge>{totalProducts}</CartBadge>
             </MenuLink>
             {!user && (
               <button onClick={() => setShowLogin(true)}>

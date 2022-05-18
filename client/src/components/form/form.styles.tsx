@@ -1,7 +1,16 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 
-export const FormManage = styled.form``
+type FormManageProps = {
+  display?: "flex" | "" | undefined
+}
+export const FormManage = styled.form<FormManageProps>`
+  display: ${({ display }) => (display ? "flex" : "block")};
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`
 
 export const Form = styled.form``
 export const FormInputContainer = styled.div`
@@ -27,6 +36,9 @@ export const ImageContainer = styled.div`
   align-items: center;
   flex-direction: column;
   flex: 1;
+  @media (max-width: 768px) {
+    order: -1;
+  }
 `
 
 export const ImageList = styled.div`

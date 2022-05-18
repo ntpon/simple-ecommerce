@@ -2,6 +2,10 @@ import styled from "styled-components"
 export const ShopDetailContainer = styled.div`
   display: flex;
   padding: 10px 20px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 5px 10px;
+  }
 `
 export const ImageContainer = styled.div`
   flex: 1;
@@ -12,7 +16,9 @@ export const ImageShow = styled.div`
   img {
     max-width: 100%;
     width: 500px;
-    object-fit: cover;
+    height: 350px;
+    object-fit: contain;
+    background-color: #fafafa;
   }
 `
 export const DetailContainer = styled.div`
@@ -21,6 +27,9 @@ export const DetailContainer = styled.div`
   padding: 20px;
   box-shadow: 0 1px 2px rgb(0 0 0 / 20%);
   border-radius: 3px;
+  @media (max-width: 768px) {
+    margin-top: 10px;
+  }
 `
 export const TitleContainer = styled.div`
   h2 {
@@ -35,13 +44,20 @@ export const TitleContainer = styled.div`
 `
 
 export const ImageThumbnailContainer = styled.div`
+  margin-top: 5px;
   display: flex;
   justify-content: center;
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    /* justify-content: flex-start; */
+  }
 `
 export const ImageThumbnail = styled.div`
   cursor: pointer;
   img {
     width: 150px;
+    height: 150px;
+    object-fit: cover;
   }
   border: 1px solid transparent;
   &:hover {

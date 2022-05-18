@@ -9,6 +9,12 @@ export const NavbarHeaderContainer = styled.div`
   background-color: #fcfcfc;
   border-color: transparent;
   color: #000;
+
+  @media (max-width: 768px) {
+    padding-top: 10px;
+    flex-direction: column;
+    margin-bottom: 30px;
+  }
 `
 
 export const NavbarLogoContainer = styled.div`
@@ -22,6 +28,10 @@ export const NavbarLogoContainer = styled.div`
 export const NavbarLogo = styled.h1`
   font-size: 24px;
   font-weight: normal;
+  @media (max-width: 768px) {
+    text-align: center;
+    width: 100%;
+  }
 `
 
 export const NavbarSearchContainer = styled.div`
@@ -31,6 +41,9 @@ export const NavbarSearchContainer = styled.div`
   flex-direction: column;
   flex: 1;
   margin: 0px 25px;
+  @media (max-width: 768px) {
+    margin: 10px 5px;
+  }
 `
 export const NavbarSearchForm = styled.form`
   display: flex;
@@ -97,6 +110,11 @@ export const NavbarMenuContainer = styled.div<NavbarMenuContainerProps>`
       margin-left: 5px;
     }
   }
+  @media (max-width: 768px) {
+    flex-direction: column;
+    height: 60px;
+    padding: 5px;
+  }
 `
 
 export const MenuLink = styled(Link)`
@@ -107,6 +125,7 @@ export const MenuLink = styled(Link)`
   align-items: center;
   span {
     margin-left: 5px;
+    position: relative;
   }
 `
 
@@ -118,4 +137,17 @@ export const MenuOtherContainer = styled.div`
   display: flex;
   align-items: center;
   margin-right: 10px;
+`
+
+export const CartBadge = styled.span`
+  border-radius: 100%;
+  font-size: 16px;
+  /* font-weight: 600; */
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  background-color: var(--color-primary-bade);
+  color: #fff;
+  justify-content: center;
+  align-items: center;
 `

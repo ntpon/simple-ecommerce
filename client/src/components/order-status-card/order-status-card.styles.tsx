@@ -4,6 +4,9 @@ export const OrderCardContainer = styled.div`
   padding: 10px;
   border: 1px solid var(--color-secondary);
   margin-bottom: 10px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `
 export const LeftContainer = styled.div`
   flex: 1;
@@ -15,6 +18,12 @@ export const LeftContainer = styled.div`
     width: 150px;
     height: 150px;
     object-fit: contain;
+  }
+  @media (max-width: 768px) {
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 `
 export const RightContainer = styled.div`

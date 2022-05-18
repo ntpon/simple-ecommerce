@@ -48,6 +48,9 @@ function CategoryForm({ isEdit, id = "" }: CategoryFormProps) {
     }
     if (isSuccess) {
       toast.success(message)
+      if (!isEdit) {
+        navigate("/admin/category")
+      }
       dispatch(reset())
     }
   }, [isError, isSuccess, message, dispatch])

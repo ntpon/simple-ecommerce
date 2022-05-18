@@ -1,4 +1,6 @@
-import { Outlet } from "react-router-dom"
+import { useEffect } from "react"
+import { Outlet, useNavigate } from "react-router-dom"
+import { useAppSelector } from "../../../store/store"
 import Sidebar from "../../sidebar/sidebar.component"
 import { AdminLayoutContainer, MainContent } from "./admin-layout.styles"
 
@@ -42,12 +44,27 @@ const menus = [
 ]
 
 function AdminLayout() {
+  const { user } = useAppSelector((state) => state.auth)
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (user) {
+      if (user.user.role !== "admin") {
+        navigate("/")
+      }
+    } else {
+      navigate("/")
+    }
+  }, [user, navigate])
   return (
     <AdminLayoutContainer>
-      <Sidebar menus={menus} />
-      <MainContent>
-        <Outlet />
-      </MainContent>
+      {user && (
+        <>
+          <Sidebar menus={menus} />
+          <MainContent>
+            <Outlet />
+          </MainContent>
+        </>
+      )}
     </AdminLayoutContainer>
   )
 }

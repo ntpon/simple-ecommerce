@@ -7,6 +7,7 @@ import {
   TableColumnAction,
   TableColumnHead,
   TableColumnItem,
+  TableContainer,
   TableRow,
   Thead,
 } from "../../../components/table/table.styles"
@@ -66,49 +67,51 @@ function UserManage() {
         link='/admin/user/create'
         label='สร้างใหม่'
       />
-      <Table>
-        <Thead>
-          <TableRow>
-            <TableColumnHead>ชื่อ</TableColumnHead>
-            <TableColumnHead>นามสกุล</TableColumnHead>
-            <TableColumnHead>อีเมล</TableColumnHead>
-            <TableColumnHead>จัดการ</TableColumnHead>
-          </TableRow>
-        </Thead>
-        <TableBody>
-          {users?.map((user) => (
-            <TableRow key={user._id}>
-              <TableColumnItem>
-                {isLoading ? <Skeleton /> : user.firstName}
-              </TableColumnItem>
-              <TableColumnItem>
-                {isLoading ? <Skeleton /> : user.lastName}
-              </TableColumnItem>
-              <TableColumnItem>
-                {isLoading ? <Skeleton /> : user.email}
-              </TableColumnItem>
-              <TableColumnAction>
-                {isLoading ? (
-                  <Skeleton />
-                ) : (
-                  <>
-                    <Link to={`/admin/user/edit/${user._id}`}>
-                      <BiEdit />
-                    </Link>
-                    <IconButton
-                      onClick={() => {
-                        handleDeleteButton(user._id)
-                      }}
-                    >
-                      <BsTrash />
-                    </IconButton>
-                  </>
-                )}
-              </TableColumnAction>
+      <TableContainer>
+        <Table>
+          <Thead>
+            <TableRow>
+              <TableColumnHead>ชื่อ</TableColumnHead>
+              <TableColumnHead>นามสกุล</TableColumnHead>
+              <TableColumnHead>อีเมล</TableColumnHead>
+              <TableColumnHead>จัดการ</TableColumnHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </Thead>
+          <TableBody>
+            {users?.map((user) => (
+              <TableRow key={user._id}>
+                <TableColumnItem>
+                  {isLoading ? <Skeleton /> : user.firstName}
+                </TableColumnItem>
+                <TableColumnItem>
+                  {isLoading ? <Skeleton /> : user.lastName}
+                </TableColumnItem>
+                <TableColumnItem>
+                  {isLoading ? <Skeleton /> : user.email}
+                </TableColumnItem>
+                <TableColumnAction>
+                  {isLoading ? (
+                    <Skeleton />
+                  ) : (
+                    <>
+                      <Link to={`/admin/user/edit/${user._id}`}>
+                        <BiEdit />
+                      </Link>
+                      <IconButton
+                        onClick={() => {
+                          handleDeleteButton(user._id)
+                        }}
+                      >
+                        <BsTrash />
+                      </IconButton>
+                    </>
+                  )}
+                </TableColumnAction>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   )
 }

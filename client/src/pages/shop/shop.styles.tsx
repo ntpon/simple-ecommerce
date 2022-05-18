@@ -15,6 +15,12 @@ export const Header = styled.h1`
 `
 export const ContentContainer = styled.div`
   display: flex;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    p {
+      margin-bottom: 10px;
+    }
+  }
 `
 export const LeftContainer = styled.div`
   flex: 1;
@@ -24,12 +30,18 @@ export const RightContent = styled.div`
 `
 export const MainContent = styled.div`
   flex: 3;
+  @media (max-width: 768px) {
+    margin-top: 10px;
+  }
 `
 
 export const ResultTotalProduct = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `
 export const SelectContainer = styled.div`
   span {
@@ -50,7 +62,14 @@ export const ProductListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-left: 30px;
+  @media (max-width: 768px) {
+    margin-left: 0px;
+    flex-direction: column;
+  }
 `
 export const ProductItem = styled.div`
   width: 33%;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `

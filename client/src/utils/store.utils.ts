@@ -1,4 +1,6 @@
 import { CartItemStatus } from "../store/cart-item/cart-items.type"
+import { ProductCheckout } from "../store/checkout/checkout.type"
+import { Product } from "../store/shop/shop.type"
 
 export const statusToThaiText = (status: CartItemStatus = "Not processed") => {
   const statusData = {
@@ -22,4 +24,17 @@ export const statusToNextStatus = (
     Cancelled: "",
   }
   return statusData[status] as CartItemStatus
+}
+
+export const isAddToCard = (
+  productId: string,
+  productCheckout: ProductCheckout[]
+) => {
+  let check = false
+  const product = productCheckout.find((p) => p._id === productId)
+
+  if (product) {
+    check = product.quantity <= product.quantityInCart
+  }
+  return check
 }

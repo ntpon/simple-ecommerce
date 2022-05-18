@@ -19,6 +19,9 @@ export const HeaderMemberText = styled.h1`
   span {
     margin-left: 10px;
   }
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `
 export const LinkCreate = styled(Link)`
   position: absolute;
@@ -27,4 +30,11 @@ export const LinkCreate = styled(Link)`
   padding: 5px 10px;
   border: 1px solid var(--color-primary-border);
   border-radius: 5px;
+  @media (max-width: 768px) {
+    position: relative;
+    display: block;
+    margin-top: -5px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
 `

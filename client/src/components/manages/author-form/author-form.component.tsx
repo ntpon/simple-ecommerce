@@ -4,7 +4,12 @@ import FormInput from "../../form-input/form-input.component"
 import { ImageListType } from "react-images-uploading"
 import { FormEvent, useEffect, useState } from "react"
 import SingleImageUpload from "../../single-image-upload/single-image-upload.component"
-import { Form, ImageContainer, InputContainer } from "../../form/form.styles"
+import {
+  Form,
+  FormManage,
+  ImageContainer,
+  InputContainer,
+} from "../../form/form.styles"
 import { useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import {
@@ -53,8 +58,10 @@ function AuthorForm({ isEdit, id = "" }: AuthorFormProps) {
       dispatch(reset())
     }
     if (isSuccess) {
-      console.log(message)
       toast.success(message)
+      if (!isEdit) {
+        navigate("/admin/author")
+      }
       dispatch(reset())
     }
   }, [isError, isSuccess, message, dispatch])
@@ -84,7 +91,11 @@ function AuthorForm({ isEdit, id = "" }: AuthorFormProps) {
     <>
       {isLoading && <Spinner />}
 
-      <Form onSubmit={handleSubmit} encType='multipart/form-data'>
+      <FormManage
+        onSubmit={handleSubmit}
+        encType='multipart/form-data'
+        display='flex'
+      >
         <InputContainer>
           <FormGroup>
             <FormInput
@@ -113,7 +124,7 @@ function AuthorForm({ isEdit, id = "" }: AuthorFormProps) {
             onChange={onChangeImage}
           />
         </ImageContainer>
-      </Form>
+      </FormManage>
     </>
   )
 }

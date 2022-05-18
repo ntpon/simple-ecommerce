@@ -11,13 +11,15 @@ import authRoute from "./routes/auth-route"
 import cartRoute from "./routes/cart-route"
 import orderRoute from "./routes/order-route"
 import cartItemRoute from "./routes/cart-item-route"
+import categoryRoute from "./routes/category-route"
+import productRoute from "./routes/product-route"
 
 // Admin
-import userRoute from "./routes/admin/user-route"
-import categoryRoute from "./routes/admin/category-route"
-import authorRoute from "./routes/admin/author-route"
-import publisherRoute from "./routes/admin/publisher-route"
-import productRoute from "./routes/admin/product-route"
+import userAdminRoute from "./routes/admin/user-route"
+import categoryAdminRoute from "./routes/admin/category-route"
+import authorAdminRoute from "./routes/admin/author-route"
+import publisherAdminRoute from "./routes/admin/publisher-route"
+import productAdminRoute from "./routes/admin/product-route"
 import cartItemAdminRoute from "./routes/admin/cart-item-route"
 
 import HttpError from "./utils/http-error"
@@ -41,12 +43,14 @@ app.use("/api/v1/auth", authRoute)
 app.use("/api/v1/cart", cartRoute)
 app.use("/api/v1/cart-item", cartItemRoute)
 app.use("/api/v1/order", orderRoute)
+app.use("/api/v1/product", productRoute)
+app.use("/api/v1/category", categoryRoute)
 
-app.use("/api/v1/admin/user", userRoute)
-app.use("/api/v1/admin/category", categoryRoute)
-app.use("/api/v1/admin/author", authorRoute)
-app.use("/api/v1/admin/publisher", publisherRoute)
-app.use("/api/v1/admin/product", productRoute)
+app.use("/api/v1/admin/user", userAdminRoute)
+app.use("/api/v1/admin/category", categoryAdminRoute)
+app.use("/api/v1/admin/author", authorAdminRoute)
+app.use("/api/v1/admin/publisher", publisherAdminRoute)
+app.use("/api/v1/admin/product", productAdminRoute)
 app.use("/api/v1/admin/cart-item", cartItemAdminRoute)
 
 app.use((req: Request, res: Response, next: NextFunction) => {

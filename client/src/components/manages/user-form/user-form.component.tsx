@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import { useAppDispatch, useAppSelector } from "../../../store/store"
 import {
@@ -26,7 +27,9 @@ function UserForm({ isEdit, id }: UserFormProps) {
   const [password, setPassword] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
   const [address, setAddress] = useState("")
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
   const { user, isLoading, isError, isSuccess, message } = useAppSelector(
     (state) => state.user
   )
@@ -55,6 +58,9 @@ function UserForm({ isEdit, id }: UserFormProps) {
     }
     if (isSuccess) {
       toast.success(message)
+      if (!isEdit) {
+        navigate("/admin/user")
+      }
       dispatch(reset())
     }
   }, [isError, isSuccess, message, dispatch])

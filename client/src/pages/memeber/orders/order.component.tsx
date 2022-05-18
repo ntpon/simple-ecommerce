@@ -19,12 +19,12 @@ function Order() {
   return (
     <OrderContainer>
       <HeaderMember text='รายการสั่งซื้อ' />
-      <SearchInputContainer>
+      {/* <SearchInputContainer>
         <input type='text' placeholder='ค้นหา Order' />
         <Button>
           <BiSearch size={16} />
         </Button>
-      </SearchInputContainer>
+      </SearchInputContainer> */}
       <div>
         {cartItemOrders?.map((cartItemOrder: CartItemOrder) => (
           <OrderCard

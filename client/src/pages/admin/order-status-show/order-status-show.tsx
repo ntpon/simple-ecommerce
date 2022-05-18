@@ -10,6 +10,7 @@ import {
   TableColumnAction,
   TableColumnHead,
   TableColumnItem,
+  TableContainer,
   TableRow,
   Thead,
 } from "../../../components/table/table.styles"
@@ -51,34 +52,36 @@ function OrderStatusShow() {
         />
       )}
       <HeaderManage text='รายการทั้งหมด' />
-      <Table>
-        <Thead>
-          <TableRow>
-            <TableColumnHead>หมายเลขรายการ</TableColumnHead>
-            <TableColumnHead>สถานะ</TableColumnHead>
-            <TableColumnHead>วันที่ทำรายการ</TableColumnHead>
-          </TableRow>
-        </Thead>
-        <TableBody>
-          {orders?.map((order) => (
+      <TableContainer>
+        <Table>
+          <Thead>
             <TableRow>
-              <TableColumnItem>
-                {isLoading ? <Skeleton /> : order._id}
-              </TableColumnItem>
-              <TableColumnItem>
-                {isLoading ? <Skeleton /> : statusToThaiText(order.status)}
-              </TableColumnItem>
-              <TableColumnItem>
-                {isLoading ? (
-                  <Skeleton />
-                ) : (
-                  new Date(order.createdAt).toLocaleDateString("th")
-                )}
-              </TableColumnItem>
+              <TableColumnHead>หมายเลขรายการ</TableColumnHead>
+              <TableColumnHead>สถานะ</TableColumnHead>
+              <TableColumnHead>วันที่ทำรายการ</TableColumnHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </Thead>
+          <TableBody>
+            {orders?.map((order) => (
+              <TableRow>
+                <TableColumnItem>
+                  {isLoading ? <Skeleton /> : order._id}
+                </TableColumnItem>
+                <TableColumnItem>
+                  {isLoading ? <Skeleton /> : statusToThaiText(order.status)}
+                </TableColumnItem>
+                <TableColumnItem>
+                  {isLoading ? (
+                    <Skeleton />
+                  ) : (
+                    new Date(order.createdAt).toLocaleDateString("th")
+                  )}
+                </TableColumnItem>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   )
 }

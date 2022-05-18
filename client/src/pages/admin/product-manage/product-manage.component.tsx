@@ -81,44 +81,47 @@ function ProductManage() {
           </TableRow>
         </Thead>
         <TableBody>
-          {products?.map((product) => (
-            <TableRow key={product._id}>
-              <TableColumnItem>
-                {isLoading ? (
-                  <Skeleton />
-                ) : (
-                  <Avatar
-                    image={product.image?.url ? product.image?.url : imgProduct}
-                    avatarRadius={0}
-                  />
-                )}
-              </TableColumnItem>
-              <TableColumnItem>
-                {isLoading ? <Skeleton /> : product.name}
-              </TableColumnItem>
-              <TableColumnItem>
-                {isLoading ? <Skeleton /> : product.name}
-              </TableColumnItem>
-              <TableColumnAction>
-                {isLoading ? (
-                  <Skeleton />
-                ) : (
-                  <>
-                    <Link to={`/admin/product/edit/${product._id}`}>
-                      <BiEdit />
-                    </Link>
-                    <IconButton
-                      onClick={() => {
-                        handleDeleteButton(product._id)
-                      }}
-                    >
-                      <BsTrash />
-                    </IconButton>
-                  </>
-                )}
-              </TableColumnAction>
-            </TableRow>
-          ))}
+          {products &&
+            products.map((product) => (
+              <TableRow key={product._id}>
+                <TableColumnItem>
+                  {isLoading ? (
+                    <Skeleton />
+                  ) : (
+                    <Avatar
+                      image={
+                        product.image?.url ? product.image?.url : imgProduct
+                      }
+                      avatarRadius={0}
+                    />
+                  )}
+                </TableColumnItem>
+                <TableColumnItem>
+                  {isLoading ? <Skeleton /> : product.name}
+                </TableColumnItem>
+                <TableColumnItem>
+                  {isLoading ? <Skeleton /> : product.name}
+                </TableColumnItem>
+                <TableColumnAction>
+                  {isLoading ? (
+                    <Skeleton />
+                  ) : (
+                    <>
+                      <Link to={`/admin/product/edit/${product._id}`}>
+                        <BiEdit />
+                      </Link>
+                      <IconButton
+                        onClick={() => {
+                          handleDeleteButton(product._id)
+                        }}
+                      >
+                        <BsTrash />
+                      </IconButton>
+                    </>
+                  )}
+                </TableColumnAction>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </>

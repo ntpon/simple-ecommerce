@@ -30,7 +30,8 @@ export const NameText = styled.h3`
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-weight: normal;
+  font-weight: 300;
+  height: 30px;
 `
 export const DescriptionText = styled.p`
   margin-top: 10px;
@@ -49,4 +50,15 @@ export const ImageController = styled.div`
   margin: 15px 0;
 `
 
-export const ImageProduct = styled.img``
+export const ImageProduct = styled.img`
+  max-width: 100%;
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  background: #fafafa;
+  @media (max-width: 768px) {
+    object-fit: cover;
+    width: 100%;
+    /* height: 100%; */
+  }
+`

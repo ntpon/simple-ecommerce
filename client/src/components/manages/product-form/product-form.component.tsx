@@ -8,6 +8,7 @@ import defaultImage from "../../../assets/images/default-product.png"
 import {
   Form,
   FormInputContainer,
+  FormManage,
   ImageContainer,
   InputContainer,
   Label,
@@ -27,6 +28,7 @@ import Spinner from "../../spinner/spinner.component"
 import { getAuthors } from "../../../store/author/author.slice"
 import { getCategories } from "../../../store/category/category.slice"
 import { getPublishers } from "../../../store/publisher/publisher.slice"
+import { useNavigate } from "react-router-dom"
 type ProductFormProps = {
   isEdit?: boolean
   id?: string
@@ -83,6 +85,7 @@ function ProductForm({ isEdit, id = "" }: ProductFormProps) {
   const { publishers: publisherOptions } = useAppSelector(
     (state) => state.publisher
   )
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(getAuthors())
@@ -99,15 +102,6 @@ function ProductForm({ isEdit, id = "" }: ProductFormProps) {
       dispatch(getProduct(id))
     }
   }, [])
-
-  // useEffect(() => {
-  //   if(authorOptions){
-
-  //   }
-  //   if(categoryOptions){
-
-  //   }
-  // }, [authorOptions, categoryOptions, publisherOptions])
 
   useEffect(() => {
     if (isEdit && product) {
@@ -146,6 +140,9 @@ function ProductForm({ isEdit, id = "" }: ProductFormProps) {
     }
     if (isSuccess) {
       toast.success(message)
+      if (!isEdit) {
+        navigate("/admin/product")
+      }
       dispatch(reset())
     }
   }, [isError, isSuccess, message, dispatch])
@@ -190,7 +187,11 @@ function ProductForm({ isEdit, id = "" }: ProductFormProps) {
   return (
     <>
       {isLoading && <Spinner />}
-      <Form onSubmit={handleSubmit} encType='multipart/form-data'>
+      <FormManage
+        onSubmit={handleSubmit}
+        encType='multipart/form-data'
+        display='flex'
+      >
         <InputContainer>
           <FormGroup>
             <FormInput
@@ -301,7 +302,7 @@ function ProductForm({ isEdit, id = "" }: ProductFormProps) {
             avatarRadius={0}
           />
         </ImageContainer>
-      </Form>
+      </FormManage>
     </>
   )
 }

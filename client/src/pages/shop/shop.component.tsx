@@ -15,9 +15,16 @@ import {
 } from "./shop.styles"
 
 import { books } from "../../book-data"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ProductCard from "../../components/product-card/product-card.component"
 import Header from "../../components/header/header.component"
+import { useAppDispatch, useAppSelector } from "../../store/store"
+import {
+  getCategories,
+  getProductByCategorySlug,
+  getProductsInShop,
+} from "../../store/shop/shop.slice"
+import { useParams } from "react-router-dom"
 
 const options = [
   { value: "1", label: "วันที่ (ล่าสุด)" },
@@ -30,37 +37,62 @@ function Shop() {
   const handleChange = (e: any) => {
     setSelectedOption(e)
   }
+  const { slug } = useParams()
+
+  const dispatch = useAppDispatch()
+  const { isLoading, categories, products } = useAppSelector(
+    (state) => state.shop
+  )
+
+  useEffect(() => {
+    if (slug) {
+      dispatch(getProductByCategorySlug(slug))
+    } else {
+      dispatch(getProductsInShop())
+    }
+  }, [slug])
+
+  useEffect(() => {
+    dispatch(getCategories())
+  }, [])
+
   return (
     <ShopContainer>
       <Header text='หนังสือทั้งหมด' icon={<ImBooks />} />
       <ContentContainer>
         <LeftContainer>
-          <ProductSidebar />
+          <ProductSidebar categories={categories} />
         </LeftContainer>
         <RightContent>
           <MainContent>
-            <ResultTotalProduct>
+            {/* <ResultTotalProduct>
               <p>แสดงหนังสือ: 1 - 8 เล่ม จากทั้งหมด 10 เล่ม</p>
               <SelectContainer>
                 <span>เรียงตาม</span>
                 <select name='' id=''>
                   {options.map((option) => (
-                    <option value={option.value}>{option.label}</option>
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
                   ))}
                 </select>
               </SelectContainer>
-            </ResultTotalProduct>
+            </ResultTotalProduct> */}
             <ProductListContainer>
-              {books.map((book) => (
-                <ProductItem>
-                  <ProductCard
-                    imageUrl={book.thumbnailUrl}
-                    name={book.title}
-                    description={book.shortDescription}
-                    price={250}
-                  />
-                </ProductItem>
-              ))}
+              {products &&
+                products.map((product) => (
+                  <ProductItem key={product._id}>
+                    <ProductCard
+                      imageUrl={product.image.url}
+                      name={product.name}
+                      description={product.description}
+                      price={product.price}
+                      slug={product.slug}
+                      product={product}
+                      isLoading={isLoading}
+                    />
+                  </ProductItem>
+                ))}
             </ProductListContainer>
           </MainContent>
         </RightContent>

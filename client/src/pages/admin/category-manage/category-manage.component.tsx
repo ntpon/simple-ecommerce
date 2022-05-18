@@ -5,6 +5,7 @@ import {
   TableColumnAction,
   TableColumnHead,
   TableColumnItem,
+  TableContainer,
   TableRow,
   Thead,
 } from "../../../components/table/table.styles"
@@ -70,46 +71,47 @@ function CategoryManage() {
         link='/admin/category/create'
         label='สร้างใหม่'
       />
-
-      <Table>
-        <Thead>
-          <TableRow>
-            <TableColumnHead>
-              {isLoading ? <Skeleton /> : "ประเภท"}
-            </TableColumnHead>
-            <TableColumnHead>
-              {isLoading ? <Skeleton /> : "จัดการ"}
-            </TableColumnHead>
-          </TableRow>
-        </Thead>
-        <TableBody>
-          {categories?.map((category) => (
-            <TableRow key={category._id}>
-              <TableColumnItem>
-                {isLoading ? <Skeleton /> : category.name}
-              </TableColumnItem>
-              <TableColumnAction>
-                {isLoading ? (
-                  <Skeleton />
-                ) : (
-                  <>
-                    <Link to={`/admin/category/edit/${category._id}`}>
-                      <BiEdit />
-                    </Link>
-                    <IconButton
-                      onClick={() => {
-                        handleDeleteButton(category._id)
-                      }}
-                    >
-                      <BsTrash />
-                    </IconButton>
-                  </>
-                )}
-              </TableColumnAction>
+      <TableContainer>
+        <Table>
+          <Thead>
+            <TableRow>
+              <TableColumnHead>
+                {isLoading ? <Skeleton /> : "ประเภท"}
+              </TableColumnHead>
+              <TableColumnHead>
+                {isLoading ? <Skeleton /> : "จัดการ"}
+              </TableColumnHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </Thead>
+          <TableBody>
+            {categories?.map((category) => (
+              <TableRow key={category._id}>
+                <TableColumnItem>
+                  {isLoading ? <Skeleton /> : category.name}
+                </TableColumnItem>
+                <TableColumnAction>
+                  {isLoading ? (
+                    <Skeleton />
+                  ) : (
+                    <>
+                      <Link to={`/admin/category/edit/${category._id}`}>
+                        <BiEdit />
+                      </Link>
+                      <IconButton
+                        onClick={() => {
+                          handleDeleteButton(category._id)
+                        }}
+                      >
+                        <BsTrash />
+                      </IconButton>
+                    </>
+                  )}
+                </TableColumnAction>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   )
 }

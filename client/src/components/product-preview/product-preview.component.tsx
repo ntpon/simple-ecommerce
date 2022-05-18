@@ -7,47 +7,54 @@ import {
   ProductPreviewHeader,
 } from "./product-preview.styles"
 import ProductCard from "../product-card/product-card.component"
+import { Products } from "../../store/shop/shop.type"
+import Skeleton from "react-loading-skeleton"
 export type ProductPreviewProps = {
   header: string
   numberShow: number
-  products: {
-    title: string
-    isbn: string
-    pageCount: number
-    publishedDate: any
-    thumbnailUrl: string
-    shortDescription: string
-    longDescription: string
-    status: string
-    authors: string[]
-    categories: string[]
-  }[]
+  products: Products | [] | undefined
+  isLoading: boolean
 }
-function ProductPreview({ header, products, numberShow }: ProductPreviewProps) {
+function ProductPreview({
+  header,
+  products,
+  numberShow,
+  isLoading,
+}: ProductPreviewProps) {
   return (
     <ProductPreviewContainer>
       <ProductPreviewHeader>
-        <HeaderText>{header}</HeaderText>
+        {isLoading ? <Skeleton /> : <HeaderText>{header}</HeaderText>}
       </ProductPreviewHeader>
       <Swiper
-        slidesPerView={numberShow}
-        spaceBetween={30}
+        slidesPerView={2}
+        spaceBetween={0}
         pagination={{
           clickable: true,
         }}
         modules={[Pagination]}
         className='product-swiper'
+        breakpoints={{
+          768: {
+            slidesPerView: numberShow,
+            spaceBetween: 30,
+          },
+        }}
       >
-        {products.map((product) => (
-          <SwiperSlide>
-            <ProductCard
-              imageUrl={product.thumbnailUrl}
-              name={product.title}
-              description={product.shortDescription}
-              price={250}
-            />
-          </SwiperSlide>
-        ))}
+        {products &&
+          products.map((product) => (
+            <SwiperSlide>
+              <ProductCard
+                imageUrl={product.image.url}
+                name={product.name}
+                description={product.description}
+                price={product.price}
+                slug={product.slug}
+                isLoading={isLoading}
+                product={product}
+              />
+            </SwiperSlide>
+          ))}
       </Swiper>
     </ProductPreviewContainer>
   )

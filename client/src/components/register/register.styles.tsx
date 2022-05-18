@@ -11,4 +11,8 @@ export const RegisterContainer = styled.form`
     text-align: center;
   }
   min-width: 500px;
+  @media (max-width: 500px) {
+    min-width: 100%;
+    width: 300px;
+  }
 `

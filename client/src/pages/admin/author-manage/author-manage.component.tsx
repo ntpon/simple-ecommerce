@@ -7,6 +7,7 @@ import {
   TableColumnAction,
   TableColumnHead,
   TableColumnItem,
+  TableContainer,
   TableRow,
   Thead,
 } from "../../../components/table/table.styles"
@@ -73,49 +74,51 @@ function AuthorManage() {
         link='/admin/author/create'
         label='สร้างใหม่'
       />
-      <Table>
-        <Thead>
-          <TableRow>
-            <TableColumnHead>รูปภาพ</TableColumnHead>
-            <TableColumnHead>ชื่อนักเขียน</TableColumnHead>
-            <TableColumnHead>จัดการ</TableColumnHead>
-          </TableRow>
-        </Thead>
-        <TableBody>
-          {authors?.map((author) => (
-            <TableRow key={author._id}>
-              <TableColumnItem>
-                {isLoading ? (
-                  <Skeleton />
-                ) : (
-                  <Avatar image={author.image?.url} />
-                )}
-              </TableColumnItem>
-              <TableColumnItem>
-                {isLoading ? <Skeleton /> : author.name}
-              </TableColumnItem>
-              <TableColumnAction>
-                {isLoading ? (
-                  <Skeleton />
-                ) : (
-                  <>
-                    <Link to={`/admin/author/edit/${author._id}`}>
-                      <BiEdit />
-                    </Link>
-                    <IconButton
-                      onClick={() => {
-                        handleDeleteButton(author._id)
-                      }}
-                    >
-                      <BsTrash />
-                    </IconButton>
-                  </>
-                )}
-              </TableColumnAction>
+      <TableContainer>
+        <Table>
+          <Thead>
+            <TableRow>
+              <TableColumnHead>รูปภาพ</TableColumnHead>
+              <TableColumnHead>ชื่อนักเขียน</TableColumnHead>
+              <TableColumnHead>จัดการ</TableColumnHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </Thead>
+          <TableBody>
+            {authors?.map((author) => (
+              <TableRow key={author._id}>
+                <TableColumnItem>
+                  {isLoading ? (
+                    <Skeleton />
+                  ) : (
+                    <Avatar image={author.image?.url} />
+                  )}
+                </TableColumnItem>
+                <TableColumnItem>
+                  {isLoading ? <Skeleton /> : author.name}
+                </TableColumnItem>
+                <TableColumnAction>
+                  {isLoading ? (
+                    <Skeleton />
+                  ) : (
+                    <>
+                      <Link to={`/admin/author/edit/${author._id}`}>
+                        <BiEdit />
+                      </Link>
+                      <IconButton
+                        onClick={() => {
+                          handleDeleteButton(author._id)
+                        }}
+                      >
+                        <BsTrash />
+                      </IconButton>
+                    </>
+                  )}
+                </TableColumnAction>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   )
 }

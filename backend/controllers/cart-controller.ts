@@ -31,10 +31,11 @@ export const addToCart = async (
   let decreaseProductList = []
 
   const sess = await mongoose.startSession()
-  sess.startTransaction()
   try {
+    sess.startTransaction()
     for (const product of products) {
       if (product.quantity >= 0) {
+        // console.log(product)
         productLists.push(
           Product.findOne({
             _id: product.id,
@@ -85,6 +86,7 @@ export const addToCart = async (
 
     for (const product of productQuery) {
       if (!product) {
+        // console.log(productQuery)
         return next(
           HttpError.badRequest("รายการสินค้าไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง")
         )
@@ -139,6 +141,7 @@ export const addToCart = async (
 
     res.status(200).json({ status: "success", message: "สั่งซื้อสินค้าสำเร็จ" })
   } catch (error) {
+    // console.log(error)
     await sess.abortTransaction()
     return next(HttpError.internal("ทำรายการไม่สำเร็จ กรุณาลองใหม่อีกครั้ง"))
   } finally {

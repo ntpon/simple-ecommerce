@@ -8,6 +8,8 @@ import { productSlice } from "./product/product.slice"
 import { cartItemSlice } from "./cart-item/cart-items.slice"
 import { userSlice } from "./user/user.slice"
 import { cartItemOrderSlice } from "./cart-item-order/cart-item-order.slice"
+import { shopSlice } from "./shop/shop.slice"
+import { checkoutSlice } from "./checkout/checkout.slice"
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +21,8 @@ export const store = configureStore({
     product: productSlice.reducer,
     cartItem: cartItemSlice.reducer,
     cartItemOrder: cartItemOrderSlice.reducer,
+    shop: shopSlice.reducer,
+    checkout: checkoutSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

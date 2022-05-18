@@ -46,3 +46,8 @@ export const IconAction = styled.div`
     color: var(--color-danger);
   }
 `
+
+export const TextNotFound = styled.p`
+  font-size: 18px;
+  text-align: center;
+`

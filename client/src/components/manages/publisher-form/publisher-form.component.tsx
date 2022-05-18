@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import {
   createPublisher,
@@ -22,6 +23,7 @@ type PublisherFormProps = {
 function PublisherForm({ isEdit, id = "" }: PublisherFormProps) {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { publisher, isLoading, isError, isSuccess, message } = useAppSelector(
     (state) => state.publisher
@@ -46,6 +48,9 @@ function PublisherForm({ isEdit, id = "" }: PublisherFormProps) {
     }
     if (isSuccess) {
       toast.success(message)
+      if (!isEdit) {
+        navigate("/admin/publisher")
+      }
       dispatch(reset())
     }
   }, [isError, isSuccess, message, dispatch])

@@ -33,4 +33,10 @@ export const BaseButton = styled.button`
   span {
     font-weight: normal;
   }
+  &:disabled {
+    background-color: #fafafa;
+    color: gray;
+    cursor: not-allowed;
+    border: 1px solid #000 !important;
+  }
 `

@@ -12,4 +12,7 @@ export const HeaderText = styled.h1`
   span {
     margin-left: 10px;
   }
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
 `
