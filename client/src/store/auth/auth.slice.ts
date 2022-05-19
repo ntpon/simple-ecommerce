@@ -147,6 +147,9 @@ export const authSlice = createSlice({
       state.isLoading = false
       state.isSuccess = true
       state.profile = action.payload.data.user
+      if (state.user?.user) {
+        state.user.user = action.payload.data.user
+      }
       state.message = action.payload.message as string
     })
     builder.addCase(updateProfile.rejected, (state, action) => {

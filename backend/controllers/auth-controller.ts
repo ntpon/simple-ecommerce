@@ -150,7 +150,6 @@ export const updateMe = async (
   }
 
   const { firstName, lastName, phoneNumber, address } = req.body
-  console.log(firstName)
   try {
     const user = await User.findById(req.user.id, "-password -token")
 
@@ -163,7 +162,17 @@ export const updateMe = async (
     res.status(200).json({
       status: "success",
       message: "อัพเดทข้อมูลผู้ใช้สำเร็จแล้ว",
-      data: { user },
+      data: {
+        user: {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          image: user.image,
+          role: user.role,
+        },
+      },
     })
   } catch (error) {
     console.log(error)

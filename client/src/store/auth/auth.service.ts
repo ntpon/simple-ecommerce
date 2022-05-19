@@ -1,4 +1,5 @@
 import http from "../../utils/http.utils"
+import { getUserFromStorage } from "../../utils/user.utils"
 import { Password, Profile, UserData, UserLogin } from "./auth.type"
 
 const API_URL = "/api/v1/auth"
@@ -28,11 +29,18 @@ const getProfile = async () => {
 
 const updateProfile = async (userData: Profile) => {
   const response = await http.patch(API_URL + "/me", userData)
+  if (response.data) {
+    localStorage.setItem(
+      "user",
+      JSON.stringify({ ...getUserFromStorage(), user: response.data.data.user })
+    )
+  }
   return response.data
 }
 
 const updatePassword = async (passwordData: Password) => {
   const response = await http.patch(API_URL + "/password", passwordData)
+
   return response.data
 }
 const authService = {

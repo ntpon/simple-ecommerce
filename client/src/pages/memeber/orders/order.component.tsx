@@ -10,6 +10,7 @@ import { getCartItemOrders } from "../../../store/cart-item-order/cart-item-orde
 import Pagination from "../../../components/pagination/pagination.component"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import usePagination from "../../../hooks/use-pagination"
+import { TextNotFound } from "../../checkout/checkout.styles"
 
 function Order() {
   const dispatch = useAppDispatch()
@@ -52,6 +53,9 @@ function Order() {
             totalPages={totalPage}
             onPageChange={handlePageChange}
           />
+        )}
+        {cartItemOrders && cartItemOrders.length === 0 && (
+          <TextNotFound>ยังไม่มีการสั่งซื้อสินค้า</TextNotFound>
         )}
       </div>
     </OrderContainer>
