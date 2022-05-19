@@ -15,7 +15,11 @@ export const getUsers = async (
 
   try {
     const [users, totalUser] = await Promise.all([
-      User.find({ status: "on" }).select("-password").skip(skip).limit(limit),
+      User.find({ status: "on" })
+        .select("-password")
+        .skip(skip)
+        .limit(limit)
+        .sort({ updatedAt: -1 }),
       User.countDocuments({ status: "on" }),
     ])
 

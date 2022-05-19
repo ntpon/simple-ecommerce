@@ -10,8 +10,10 @@ export const getPublishersAll = async (
   res: Response,
   next: NextFunction
 ) => {
-  const publishers = await Publisher.find({ status: "on" })
   try {
+    const publishers = await Publisher.find({ status: "on" }).sort({
+      updatedAt: -1,
+    })
     return res.status(200).json({
       data: {
         publishers,
@@ -32,7 +34,10 @@ export const getPublishers = async (
 
   try {
     const [publishers, totalPublisher] = await Promise.all([
-      Publisher.find({ status: "on" }).skip(skip).limit(limit),
+      Publisher.find({ status: "on" })
+        .skip(skip)
+        .limit(limit)
+        .sort({ updatedAt: -1 }),
       Publisher.countDocuments({ status: "on" }),
     ])
 

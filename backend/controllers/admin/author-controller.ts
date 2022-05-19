@@ -13,7 +13,7 @@ export const getAuthorsAll = async (
   next: NextFunction
 ) => {
   try {
-    const authors = await Author.find({ status: "on" })
+    const authors = await Author.find({ status: "on" }).sort({ updatedAt: -1 })
     return res.status(200).json({
       data: {
         authors,

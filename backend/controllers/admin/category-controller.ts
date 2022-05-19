@@ -13,7 +13,10 @@ export const getCategory = async (
   const { page, limit, skip } = getPagination(req)
   try {
     const [categories, totalCategory] = await Promise.all([
-      Category.find({ status: "on" }).skip(skip).limit(limit),
+      Category.find({ status: "on" })
+        .skip(skip)
+        .limit(limit)
+        .sort({ updatedAt: -1 }),
       Category.countDocuments({ status: "on" }),
     ])
 
@@ -37,7 +40,9 @@ export const getCategoryAll = async (
   next: NextFunction
 ) => {
   try {
-    const categories = await Category.find({ status: "on" })
+    const categories = await Category.find({ status: "on" }).sort({
+      updatedAt: -1,
+    })
 
     return res.status(200).json({
       data: {

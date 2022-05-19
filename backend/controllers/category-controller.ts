@@ -52,7 +52,8 @@ export const getProductsByCategorySlug = async (
         },
       ])
         .skip(skip)
-        .limit(limit),
+        .limit(limit)
+        .sort({ updatedAt: -1 }),
       Product.aggregate([
         {
           $match: {

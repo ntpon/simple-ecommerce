@@ -14,7 +14,8 @@ export const getMyCartItem = async (
       CartItem.find({ user: req.user.id })
         .populate(["product", "user"])
         .skip(skip)
-        .limit(limit),
+        .limit(limit)
+        .sort({ updatedAt: -1 }),
       CartItem.countDocuments({ user: req.user.id }),
     ])
     const totalPage = Math.ceil(totalCartItem / limit)

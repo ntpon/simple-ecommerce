@@ -15,7 +15,10 @@ export const getProducts = async (
 
   try {
     const [products, totalProduct] = await Promise.all([
-      Product.find({ status: "on" }).skip(skip).limit(limit),
+      Product.find({ status: "on" })
+        .skip(skip)
+        .limit(limit)
+        .sort({ updatedAt: -1 }),
       Product.countDocuments({ status: "on" }),
     ])
 

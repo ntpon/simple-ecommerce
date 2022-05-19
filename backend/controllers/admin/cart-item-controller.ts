@@ -13,7 +13,11 @@ export const getCartItems = async (
   const { page, limit, skip } = getPagination(req)
   try {
     const [cartItems, totalCartItems] = await Promise.all([
-      CartItem.find().populate(["product", "user"]).skip(skip).limit(limit),
+      CartItem.find()
+        .populate(["product", "user"])
+        .skip(skip)
+        .limit(limit)
+        .sort({ updatedAt: -1 }),
       CartItem.countDocuments(),
     ])
 
