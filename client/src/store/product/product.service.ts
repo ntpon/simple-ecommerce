@@ -38,8 +38,8 @@ const createProduct = async (data: ProductFormData) => {
   return resposne.data
 }
 
-const getProducts = async () => {
-  const response = await http.get(API_URL)
+const getProducts = async (page: number) => {
+  const response = await http.get(`${API_URL}?page=${page}`)
   return response.data
 }
 

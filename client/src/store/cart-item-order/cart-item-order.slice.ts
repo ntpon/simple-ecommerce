@@ -6,6 +6,8 @@ import { Error } from "../../types/fetch-data.type"
 
 const initialState: CartItemOrderState = {
   cartItemOrders: [],
+  totalPage: 0,
+  totalCartItemOrders: 0,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -13,9 +15,9 @@ const initialState: CartItemOrderState = {
 }
 export const getCartItemOrders = createAsyncThunk(
   "cartItemOrder/getAll",
-  async (_, thunkAPI) => {
+  async (page: number, thunkAPI) => {
     try {
-      return await cartItemOrders.getCartItemOrders()
+      return await cartItemOrders.getCartItemOrders(page)
     } catch (error) {
       const err = error as AxiosError<Error>
       return thunkAPI.rejectWithValue(err.response?.data.error)
@@ -40,6 +42,8 @@ export const cartItemOrderSlice = createSlice({
     builder.addCase(getCartItemOrders.fulfilled, (state, action) => {
       state.isLoading = false
       state.cartItemOrders = action.payload.data.cartItems
+      state.totalPage = action.payload.data.totalPage
+      state.totalCartItemOrders = action.payload.data.totalCartItem
     })
     builder.addCase(getCartItemOrders.rejected, (state, action) => {
       state.isLoading = false

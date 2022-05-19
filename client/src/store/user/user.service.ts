@@ -20,8 +20,8 @@ const createUser = async (data: UserFormData) => {
   return resposne.data
 }
 
-const getUsers = async () => {
-  const response = await http.get(API_URL)
+const getUsers = async (page: number) => {
+  const response = await http.get(`${API_URL}?page=${page}`)
   return response.data
 }
 

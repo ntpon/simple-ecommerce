@@ -4,16 +4,28 @@ import HttpError from "../../utils/http-error"
 import { v2 as cloudinary } from "cloudinary"
 import { strToSlug } from "../../utils/slug"
 import Product from "../../models/product"
+import { getPagination } from "../../utils/pagination"
 
 export const getProducts = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  const { page, limit, skip } = getPagination(req)
+
   try {
-    const products = await Product.find({ status: "on" })
+    const [products, totalProduct] = await Promise.all([
+      Product.find({ status: "on" }).skip(skip).limit(limit),
+      Product.countDocuments({ status: "on" }),
+    ])
+
+    const totalPage = Math.ceil(totalProduct / limit)
     return res.status(200).json({
-      data: products,
+      data: {
+        products,
+        totalProduct,
+        totalPage,
+      },
     })
   } catch (error) {
     return next(

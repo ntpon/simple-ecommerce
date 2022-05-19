@@ -26,22 +26,24 @@ import { toast } from "react-toastify"
 import ConfirmModal from "../../../components/confirm-modal/confirm-modal.component"
 import Skeleton from "react-loading-skeleton"
 import IconButton from "../../../components/icon-button/icon-button.component"
+import Pagination from "../../../components/pagination/pagination.component"
+import usePagination from "../../../hooks/use-pagination"
 
 function AuthorManage() {
   const dispatch = useAppDispatch()
+  const { handlePageChange, pageValue } = usePagination()
   const [showModal, setShowModal] = useState(false)
   const [authorToDelete, setAuthorToDelete] = useState("")
-  const { authors, isLoading, message, isSuccess, isError } = useAppSelector(
-    (state) => state.author
-  )
+  const { authors, isLoading, message, isSuccess, isError, totalPage } =
+    useAppSelector((state) => state.author)
   useEffect(() => {
-    dispatch(getAuthors())
-  }, [])
+    dispatch(getAuthors(pageValue))
+  }, [pageValue, dispatch])
 
   useEffect(() => {
     if (isSuccess) {
       toast.success(message)
-      dispatch(getAuthors())
+      dispatch(getAuthors(pageValue))
       dispatch(reset())
     }
     if (isError) {
@@ -119,6 +121,13 @@ function AuthorManage() {
           </TableBody>
         </Table>
       </TableContainer>
+      {authors && authors.length > 0 && totalPage > 1 && (
+        <Pagination
+          page={pageValue}
+          totalPages={totalPage}
+          onPageChange={handlePageChange}
+        />
+      )}
     </>
   )
 }

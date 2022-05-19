@@ -5,6 +5,7 @@ import {
   deletePublisherById,
   getPublisherById,
   getPublishers,
+  getPublishersAll,
   updatePublisher,
 } from "../../controllers/admin/publisher-controller"
 
@@ -12,6 +13,7 @@ import { auth, authRole } from "../../middlewares/auth-middleware"
 const router = express.Router()
 
 router.get("/", auth, authRole("admin"), getPublishers)
+router.get("/all", auth, authRole("admin"), getPublishersAll)
 
 router.get("/:id", auth, authRole("admin"), getPublisherById)
 

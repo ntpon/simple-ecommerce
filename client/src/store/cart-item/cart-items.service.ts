@@ -3,8 +3,8 @@ import { CartItemStatus } from "./cart-items.type"
 
 const API_URL = "/api/v1/admin/cart-item"
 
-const getCartItems = async () => {
-  const response = await http.get(API_URL)
+const getCartItems = async (page: number) => {
+  const response = await http.get(`${API_URL}?page=${page}`)
   return response.data
 }
 

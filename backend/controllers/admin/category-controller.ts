@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express"
 import { validationResult } from "express-validator"
 import Category from "../../models/category"
 import HttpError from "../../utils/http-error"
+import { getPagination } from "../../utils/pagination"
 import { strToSlug } from "../../utils/slug"
 
 export const getCategory = async (
@@ -9,10 +10,39 @@ export const getCategory = async (
   res: Response,
   next: NextFunction
 ) => {
+  const { page, limit, skip } = getPagination(req)
+  try {
+    const [categories, totalCategory] = await Promise.all([
+      Category.find({ status: "on" }).skip(skip).limit(limit),
+      Category.countDocuments({ status: "on" }),
+    ])
+
+    const totalPage = Math.ceil(totalCategory / limit)
+    return res.status(200).json({
+      data: {
+        categories,
+        totalCategory,
+        totalPage,
+      },
+    })
+  } catch (error) {
+    return next(
+      HttpError.internal("ไม่สามารถดำเนินการได้สำเร็จ กรุณาลองอีกครั้ง")
+    )
+  }
+}
+export const getCategoryAll = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const categories = await Category.find({ status: "on" })
+
     return res.status(200).json({
-      data: categories,
+      data: {
+        categories,
+      },
     })
   } catch (error) {
     return next(

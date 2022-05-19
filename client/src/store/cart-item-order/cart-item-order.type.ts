@@ -3,6 +3,8 @@ import { CartItemStatus } from "../cart-item/cart-items.type"
 import { Product } from "../product/product.type"
 export type CartItemOrderState = {
   cartItemOrders: CartItemOrder[] | [] | undefined
+  totalPage: number
+  totalCartItemOrders: number
   isError: boolean
   isSuccess: boolean
   isLoading: boolean

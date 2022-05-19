@@ -22,13 +22,18 @@ const deleteCategory = async (id: string) => {
   return response.data
 }
 
-const getCategories = async () => {
-  const response = await http.get(API_URL)
+const getCategories = async (page: number) => {
+  const response = await http.get(`${API_URL}?page=${page}`)
+  return response.data
+}
+const getCategoriesAll = async () => {
+  const response = await http.get(`${API_URL}/all`)
   return response.data
 }
 
 const categoryService = {
   getCategories,
+  getCategoriesAll,
   getCategory,
   createCategory,
   updateCategory,

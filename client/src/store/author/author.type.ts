@@ -15,6 +15,8 @@ export type Authors = Author[]
 export type AuthorState = {
   authors: Authors | [] | undefined
   author: Author | undefined
+  totalAuthor: number
+  totalPage: number
   isError: boolean
   isSuccess: boolean
   isLoading: boolean

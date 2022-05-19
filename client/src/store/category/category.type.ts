@@ -12,6 +12,8 @@ export type Categories = Category[]
 export type CategoryState = {
   categories: Categories | [] | undefined
   category: Category | undefined
+  totalCategory: number
+  totalPage: number
   isError: boolean
   isSuccess: boolean
   isLoading: boolean

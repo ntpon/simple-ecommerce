@@ -25,31 +25,17 @@ import {
 import { toast } from "react-toastify"
 import { ProductFormData } from "../../../store/product/product.type"
 import Spinner from "../../spinner/spinner.component"
-import { getAuthors } from "../../../store/author/author.slice"
-import { getCategories } from "../../../store/category/category.slice"
-import { getPublishers } from "../../../store/publisher/publisher.slice"
+import { getAuthors, getAuthorsAll } from "../../../store/author/author.slice"
+import { getCategoriesAll } from "../../../store/category/category.slice"
+import {
+  getPublishers,
+  getPublishersAll,
+} from "../../../store/publisher/publisher.slice"
 import { useNavigate } from "react-router-dom"
 type ProductFormProps = {
   isEdit?: boolean
   id?: string
 }
-// const authorOptions = [
-//   { value: "1", label: "นักเขียน 1" },
-//   { value: "2", label: "นักเขียน 2" },
-//   { value: "3", label: "นักเขียน 3" },
-// ]
-
-// const categoryOptions = [
-//   { value: "1", label: "ประเภทสินค้า 1" },
-//   { value: "2", label: "ประเภทสินค้า 2" },
-//   { value: "3", label: "ประเภทสินค้า 3" },
-// ]
-
-// const publisherOption = [
-//   { value: "1", label: "ประเภทสินค้า 1" },
-//   { value: "2", label: "ประเภทสินค้า 2" },
-//   { value: "3", label: "ประเภทสินค้า 3" },
-// ]
 
 type SelectValue = {
   label: string
@@ -88,13 +74,13 @@ function ProductForm({ isEdit, id = "" }: ProductFormProps) {
   const navigate = useNavigate()
 
   useEffect(() => {
-    dispatch(getAuthors())
+    dispatch(getAuthorsAll())
   }, [])
   useEffect(() => {
-    dispatch(getCategories())
+    dispatch(getCategoriesAll())
   }, [])
   useEffect(() => {
-    dispatch(getPublishers())
+    dispatch(getPublishersAll())
   }, [])
 
   useEffect(() => {

@@ -4,16 +4,28 @@ import User from "../../models/user"
 import HttpError from "../../utils/http-error"
 import bcrypt from "bcryptjs"
 import { v2 as cloudinary } from "cloudinary"
+import { getPagination } from "../../utils/pagination"
 
 export const getUsers = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  const { page, limit, skip } = getPagination(req)
+
   try {
-    const users = await User.find({ status: "on" }).select("-password")
+    const [users, totalUser] = await Promise.all([
+      User.find({ status: "on" }).select("-password").skip(skip).limit(limit),
+      User.countDocuments({ status: "on" }),
+    ])
+
+    const totalPage = Math.ceil(totalUser / limit)
     return res.status(200).json({
-      data: users,
+      data: {
+        users,
+        totalUser,
+        totalPage,
+      },
     })
   } catch (error) {
     return next(

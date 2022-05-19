@@ -2,17 +2,47 @@ import { NextFunction, Request, Response } from "express"
 import { validationResult } from "express-validator"
 import Publisher from "../../models/publisher"
 import HttpError from "../../utils/http-error"
+import { getPagination } from "../../utils/pagination"
 import { strToSlug } from "../../utils/slug"
 
+export const getPublishersAll = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const publishers = await Publisher.find({ status: "on" })
+  try {
+    return res.status(200).json({
+      data: {
+        publishers,
+      },
+    })
+  } catch (error) {
+    return next(
+      HttpError.internal("ไม่สามารถดำเนินการได้สำเร็จ กรุณาลองอีกครั้ง")
+    )
+  }
+}
 export const getPublishers = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  const { page, limit, skip } = getPagination(req)
+
   try {
-    const publishers = await Publisher.find({ status: "on" })
+    const [publishers, totalPublisher] = await Promise.all([
+      Publisher.find({ status: "on" }).skip(skip).limit(limit),
+      Publisher.countDocuments({ status: "on" }),
+    ])
+
+    const totalPage = Math.ceil(totalPublisher / limit)
     return res.status(200).json({
-      data: publishers,
+      data: {
+        publishers,
+        totalPublisher,
+        totalPage,
+      },
     })
   } catch (error) {
     return next(

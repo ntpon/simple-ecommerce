@@ -3,6 +3,8 @@ import { toast } from "react-toastify"
 import ConfirmModal from "../../../components/confirm-modal/confirm-modal.component"
 import HeaderManage from "../../../components/header-manage/header-manage.component"
 import OrderStatusCard from "../../../components/order-status-card/order-status-card.component"
+import Pagination from "../../../components/pagination/pagination.component"
+import usePagination from "../../../hooks/use-pagination"
 import {
   getCartItems,
   reset,
@@ -15,20 +17,21 @@ import { statusToNextStatus } from "../../../utils/store.utils"
 
 function OrderStatusManage() {
   const dispatch = useAppDispatch()
+  const { handlePageChange, pageValue } = usePagination()
+
   const [showModal, setShowModal] = useState(false)
   const [cartItemToUpdate, setCartItemToUpdate] = useState("")
   const [typeProcess, setTypeProcess] = useState<CartItemStatus>()
-  const { cartItems, isLoading, message, isSuccess, isError } = useAppSelector(
-    (state) => state.cartItem
-  )
+  const { cartItems, isLoading, message, isSuccess, isError, totalPage } =
+    useAppSelector((state) => state.cartItem)
   useEffect(() => {
-    dispatch(getCartItems())
-  }, [])
+    dispatch(getCartItems(pageValue))
+  }, [pageValue])
 
   useEffect(() => {
     if (isSuccess) {
       toast.success(message)
-      dispatch(getCartItems())
+      dispatch(getCartItems(pageValue))
       dispatch(reset())
     }
     if (isError) {
@@ -93,6 +96,13 @@ function OrderStatusManage() {
             }}
           />
         ))}
+        {cartItems && cartItems.length > 0 && totalPage > 1 && (
+          <Pagination
+            page={pageValue}
+            totalPages={totalPage}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     </>
   )

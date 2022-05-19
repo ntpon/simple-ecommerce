@@ -7,15 +7,21 @@ import { useAppDispatch, useAppSelector } from "../../../store/store"
 import { CartItemOrder } from "../../../store/cart-item-order/cart-item-order.type"
 import { useEffect } from "react"
 import { getCartItemOrders } from "../../../store/cart-item-order/cart-item-order.slice"
+import Pagination from "../../../components/pagination/pagination.component"
+import { useNavigate, useSearchParams } from "react-router-dom"
+import usePagination from "../../../hooks/use-pagination"
 
 function Order() {
   const dispatch = useAppDispatch()
-  const { isError, isLoading, isSuccess, cartItemOrders } = useAppSelector(
-    (state) => state.cartItemOrder
-  )
+  const [searchParams] = useSearchParams()
+  const { handlePageChange, pageValue } = usePagination()
+  const { isError, isLoading, isSuccess, cartItemOrders, totalPage } =
+    useAppSelector((state) => state.cartItemOrder)
+
   useEffect(() => {
-    dispatch(getCartItemOrders())
-  }, [])
+    dispatch(getCartItemOrders(pageValue))
+  }, [pageValue, dispatch])
+
   return (
     <OrderContainer>
       <HeaderMember text='รายการสั่งซื้อ' />
@@ -26,19 +32,27 @@ function Order() {
         </Button>
       </SearchInputContainer> */}
       <div>
-        {cartItemOrders?.map((cartItemOrder: CartItemOrder) => (
-          <OrderCard
-            key={cartItemOrder._id}
-            productName={cartItemOrder.product.name}
-            quantity={cartItemOrder.quantity}
-            image={cartItemOrder.product.image.url}
-            updatedAt={cartItemOrder.updatedAt}
-            totalPrice={cartItemOrder.totalPrice}
-            status={cartItemOrder.status}
-            orderId={cartItemOrder._id}
-            isLoading={isLoading}
+        {cartItemOrders &&
+          cartItemOrders.map((cartItemOrder: CartItemOrder) => (
+            <OrderCard
+              key={cartItemOrder._id}
+              productName={cartItemOrder.product.name}
+              quantity={cartItemOrder.quantity}
+              image={cartItemOrder.product.image.url}
+              updatedAt={cartItemOrder.updatedAt}
+              totalPrice={cartItemOrder.totalPrice}
+              status={cartItemOrder.status}
+              orderId={cartItemOrder._id}
+              isLoading={isLoading}
+            />
+          ))}
+        {cartItemOrders && cartItemOrders.length > 0 && totalPage > 1 && (
+          <Pagination
+            page={Number(pageValue) || 1}
+            totalPages={totalPage}
+            onPageChange={handlePageChange}
           />
-        ))}
+        )}
       </div>
     </OrderContainer>
   )

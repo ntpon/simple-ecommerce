@@ -10,6 +10,8 @@ const initialState: ProductState = {
   message: "",
   products: [],
   product: undefined,
+  totalPage: 0,
+  totalProduct: 0,
 }
 
 export const createProduct = createAsyncThunk(
@@ -26,9 +28,9 @@ export const createProduct = createAsyncThunk(
 
 export const getProducts = createAsyncThunk(
   "product/getAll",
-  async (_, thunkAPI) => {
+  async (page: number, thunkAPI) => {
     try {
-      return await productService.getProducts()
+      return await productService.getProducts(page)
     } catch (error) {
       const err = error as AxiosError<Error>
       return thunkAPI.rejectWithValue(err.response?.data.error)
@@ -95,7 +97,9 @@ export const productSlice = createSlice({
     })
     builder.addCase(getProducts.fulfilled, (state, action) => {
       state.isLoading = false
-      state.products = action.payload.data
+      state.products = action.payload.data.products
+      state.totalProduct = action.payload.data.totalProduct
+      state.totalPage = action.payload.data.totalPage
     })
     builder.addCase(getProducts.rejected, (state, action) => {
       state.isLoading = false

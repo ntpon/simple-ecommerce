@@ -24,21 +24,23 @@ import Skeleton from "react-loading-skeleton"
 import IconButton from "../../../components/icon-button/icon-button.component"
 import Avatar from "../../../components/avatar/avatar.component"
 import imgProduct from "../../../assets/images/default-product.png"
+import Pagination from "../../../components/pagination/pagination.component"
+import usePagination from "../../../hooks/use-pagination"
 function ProductManage() {
   const dispatch = useAppDispatch()
+  const { handlePageChange, pageValue } = usePagination()
   const [showModal, setShowModal] = useState(false)
   const [authorToDelete, setAuthorToDelete] = useState("")
-  const { products, isLoading, message, isSuccess, isError } = useAppSelector(
-    (state) => state.product
-  )
+  const { products, isLoading, message, isSuccess, isError, totalPage } =
+    useAppSelector((state) => state.product)
   useEffect(() => {
-    dispatch(getProducts())
-  }, [])
+    dispatch(getProducts(pageValue))
+  }, [pageValue, dispatch])
 
   useEffect(() => {
     if (isSuccess) {
       toast.success(message)
-      dispatch(getProducts())
+      dispatch(getProducts(pageValue))
       dispatch(reset())
     }
     if (isError) {
@@ -124,6 +126,13 @@ function ProductManage() {
             ))}
         </TableBody>
       </Table>
+      {products && products.length > 0 && totalPage > 1 && (
+        <Pagination
+          page={pageValue}
+          totalPages={totalPage}
+          onPageChange={handlePageChange}
+        />
+      )}
     </>
   )
 }

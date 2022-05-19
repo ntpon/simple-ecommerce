@@ -23,22 +23,24 @@ import IconButton from "../../../components/icon-button/icon-button.component"
 import { toast } from "react-toastify"
 import ConfirmModal from "../../../components/confirm-modal/confirm-modal.component"
 import Skeleton from "react-loading-skeleton"
+import Pagination from "../../../components/pagination/pagination.component"
+import usePagination from "../../../hooks/use-pagination"
 
 function CategoryManage() {
   const dispatch = useAppDispatch()
+  const { handlePageChange, pageValue } = usePagination()
   const [showModal, setShowModal] = useState(false)
   const [categoryToDelete, setCategoryToDelete] = useState("")
-  const { categories, isLoading, message, isSuccess, isError } = useAppSelector(
-    (state) => state.category
-  )
+  const { categories, isLoading, message, isSuccess, isError, totalPage } =
+    useAppSelector((state) => state.category)
   useEffect(() => {
-    dispatch(getCategories())
-  }, [])
+    dispatch(getCategories(pageValue))
+  }, [pageValue, dispatch])
 
   useEffect(() => {
     if (isSuccess) {
       toast.success(message)
-      dispatch(getCategories())
+      dispatch(getCategories(pageValue))
       dispatch(reset())
     }
     if (isError) {
@@ -112,6 +114,13 @@ function CategoryManage() {
           </TableBody>
         </Table>
       </TableContainer>
+      {categories && categories.length > 0 && totalPage > 1 && (
+        <Pagination
+          page={pageValue}
+          totalPages={totalPage}
+          onPageChange={handlePageChange}
+        />
+      )}
     </>
   )
 }

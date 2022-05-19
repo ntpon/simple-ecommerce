@@ -19,22 +19,25 @@ import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import Skeleton from "react-loading-skeleton"
 import IconButton from "../../../components/icon-button/icon-button.component"
+import Pagination from "../../../components/pagination/pagination.component"
+import usePagination from "../../../hooks/use-pagination"
 
 function UserManage() {
   const dispatch = useAppDispatch()
+  const { handlePageChange, pageValue } = usePagination()
+
   const [showModal, setShowModal] = useState(false)
   const [userToDelete, setUserToDelete] = useState("")
-  const { users, isLoading, message, isSuccess, isError } = useAppSelector(
-    (state) => state.user
-  )
+  const { users, isLoading, message, isSuccess, isError, totalPage } =
+    useAppSelector((state) => state.user)
   useEffect(() => {
-    dispatch(getUsers())
-  }, [])
+    dispatch(getUsers(pageValue))
+  }, [pageValue])
 
   useEffect(() => {
     if (isSuccess) {
       toast.success(message)
-      dispatch(getUsers())
+      dispatch(getUsers(pageValue))
       dispatch(reset())
     }
     if (isError) {
@@ -112,6 +115,13 @@ function UserManage() {
           </TableBody>
         </Table>
       </TableContainer>
+      {users && users.length > 0 && totalPage > 1 && (
+        <Pagination
+          page={pageValue}
+          totalPages={totalPage}
+          onPageChange={handlePageChange}
+        />
+      )}
     </>
   )
 }

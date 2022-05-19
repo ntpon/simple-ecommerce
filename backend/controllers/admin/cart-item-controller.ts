@@ -3,14 +3,33 @@ import mongoose from "mongoose"
 import CartItem from "../../models/cart-item"
 import OrderStatus from "../../models/order-status"
 import HttpError from "../../utils/http-error"
+import { getPagination } from "../../utils/pagination"
 
 export const getCartItems = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const cartItems = await CartItem.find().populate(["product", "user"])
-  return res.status(200).json({ status: "success", data: { cartItems } })
+  const { page, limit, skip } = getPagination(req)
+  try {
+    const [cartItems, totalCartItems] = await Promise.all([
+      CartItem.find().populate(["product", "user"]).skip(skip).limit(limit),
+      CartItem.countDocuments(),
+    ])
+
+    const totalPage = Math.ceil(totalCartItems / limit)
+    return res.status(200).json({
+      data: {
+        cartItems,
+        totalCartItems,
+        totalPage,
+      },
+    })
+  } catch (error) {
+    return next(
+      HttpError.internal("ไม่สามารถดำเนินการได้สำเร็จ กรุณาลองอีกครั้ง")
+    )
+  }
 }
 
 export const getCartItemsById = async (

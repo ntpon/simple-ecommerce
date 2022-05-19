@@ -10,6 +10,8 @@ const initialState: ShopState = {
   isSuccess: false,
   message: "",
   products: [],
+  totalPage: 0,
+  totalProduct: 0,
   product: undefined,
   recommendProducts: [],
   newProducts: [],
@@ -43,9 +45,9 @@ export const getProductsForHomeIndex = createAsyncThunk(
 
 export const getProductsInShop = createAsyncThunk(
   "product-shop/getAll",
-  async (_, thunkAPI) => {
+  async (page: number, thunkAPI) => {
     try {
-      return await shopService.getProductsInShop()
+      return await shopService.getProductsInShop(page)
     } catch (error) {
       const err = error as AxiosError<Error>
       return thunkAPI.rejectWithValue(err.response?.data.error)
@@ -79,9 +81,12 @@ export const getCategories = createAsyncThunk(
 
 export const getProductByCategorySlug = createAsyncThunk(
   "products-shop/getByCategory",
-  async (categoryId: string, thunkAPI) => {
+  async (
+    { categoryId, page }: { categoryId: string; page: number },
+    thunkAPI
+  ) => {
     try {
-      return await shopService.getProductByCategorySlug(categoryId)
+      return await shopService.getProductByCategorySlug(categoryId, page)
     } catch (error) {
       const err = error as AxiosError<Error>
       return thunkAPI.rejectWithValue(err.response?.data.error)
@@ -136,6 +141,7 @@ export const shopSlice = createSlice({
     builder.addCase(getProductsInShop.fulfilled, (state, action) => {
       state.isLoading = false
       state.products = action.payload.data.products
+      state.totalPage = action.payload.data.totalPage
     })
     builder.addCase(getProductsInShop.rejected, (state, action) => {
       state.isLoading = false
@@ -174,6 +180,7 @@ export const shopSlice = createSlice({
     builder.addCase(getProductByCategorySlug.fulfilled, (state, action) => {
       state.isLoading = false
       state.products = action.payload.data.products
+      state.totalPage = action.payload.data.totalPage
     })
     builder.addCase(getProductByCategorySlug.rejected, (state, action) => {
       state.isLoading = false

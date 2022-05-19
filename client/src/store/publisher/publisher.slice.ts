@@ -6,6 +6,8 @@ import { PublisherFormData, PublisherState } from "./publisher.type"
 const initialState: PublisherState = {
   publishers: [],
   publisher: undefined,
+  totalPage: 0,
+  totalPublisher: 0,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -25,16 +27,26 @@ export const createPublisher = createAsyncThunk(
 )
 export const getPublishers = createAsyncThunk(
   "publisher/getAll",
-  async (_, thunkAPI) => {
+  async (page: number, thunkAPI) => {
     try {
-      return await publisherService.getPublishers()
+      return await publisherService.getPublishers(page)
     } catch (error) {
       const err = error as AxiosError<Error>
       return thunkAPI.rejectWithValue(err.response?.data.error)
     }
   }
 )
-
+export const getPublishersAll = createAsyncThunk(
+  "author/getAllNotPagination",
+  async (_, thunkAPI) => {
+    try {
+      return await publisherService.getPublishersAll()
+    } catch (error) {
+      const err = error as AxiosError<Error>
+      return thunkAPI.rejectWithValue(err.response?.data.error)
+    }
+  }
+)
 export const getPublisher = createAsyncThunk(
   "publisher/get",
   async (publisherId: string, thunkAPI) => {
@@ -94,9 +106,23 @@ export const publisherSlice = createSlice({
     })
     builder.addCase(getPublishers.fulfilled, (state, action) => {
       state.isLoading = false
-      state.publishers = action.payload.data
+      state.publishers = action.payload.data.publishers
+      state.totalPage = action.payload.data.totalPage
+      state.totalPublisher = action.payload.data.totalPublisher
     })
     builder.addCase(getPublishers.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = true
+      state.message = action.payload as string
+    })
+    builder.addCase(getPublishersAll.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(getPublishersAll.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.publishers = action.payload.data.publishers
+    })
+    builder.addCase(getPublishersAll.rejected, (state, action) => {
       state.isLoading = false
       state.isError = true
       state.message = action.payload as string

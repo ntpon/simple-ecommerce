@@ -15,13 +15,15 @@ const initialState: CartItemState = {
   cartItems: [],
   orders: [],
   cartItem: undefined,
+  totalPage: 0,
+  totalOrder: 0,
 }
 
 export const getCartItems = createAsyncThunk(
   "cartItem/getAll",
-  async (_, thunkAPI) => {
+  async (page: number, thunkAPI) => {
     try {
-      return await cartItemService.getCartItems()
+      return await cartItemService.getCartItems(page)
     } catch (error) {
       const err = error as AxiosError<Error>
       return thunkAPI.rejectWithValue(err.response?.data.error)
@@ -80,6 +82,8 @@ export const cartItemSlice = createSlice({
     builder.addCase(getCartItems.fulfilled, (state, action) => {
       state.isLoading = false
       state.cartItems = action.payload.data.cartItems
+      state.totalOrder = action.payload.data.totalCartItems
+      state.totalPage = action.payload.data.totalPage
     })
     builder.addCase(getCartItems.rejected, (state, action) => {
       state.isLoading = false

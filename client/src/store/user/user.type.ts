@@ -18,6 +18,8 @@ export type Users = User[]
 export type UserState = {
   users: Users | [] | undefined
   user: User | undefined
+  totalUser: number
+  totalPage: number
   isError: boolean
   isSuccess: boolean
   isLoading: boolean

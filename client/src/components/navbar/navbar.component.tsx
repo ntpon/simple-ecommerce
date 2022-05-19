@@ -110,7 +110,7 @@ function Navbar() {
             </MenuLink>
             <MenuLink to='/shop'>
               <ImBooks />
-              <span>สินค้าทั้งหมด</span>
+              <span>หนังสือทั้งหมด</span>
             </MenuLink>
           </MenuMainContainer>
           <MenuOtherContainer>

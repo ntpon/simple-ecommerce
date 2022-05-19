@@ -24,7 +24,9 @@ import {
   getProductByCategorySlug,
   getProductsInShop,
 } from "../../store/shop/shop.slice"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
+import Pagination from "../../components/pagination/pagination.component"
+import usePagination from "../../hooks/use-pagination"
 
 const options = [
   { value: "1", label: "วันที่ (ล่าสุด)" },
@@ -38,19 +40,32 @@ function Shop() {
     setSelectedOption(e)
   }
   const { slug } = useParams()
-
+  const { handlePageChange, pageValue } = usePagination()
   const dispatch = useAppDispatch()
-  const { isLoading, categories, products } = useAppSelector(
+  const { isLoading, categories, products, totalPage } = useAppSelector(
     (state) => state.shop
   )
 
   useEffect(() => {
     if (slug) {
-      dispatch(getProductByCategorySlug(slug))
+      if (pageValue) {
+        dispatch(
+          getProductByCategorySlug({
+            categoryId: slug,
+            page: Number(pageValue),
+          })
+        )
+      } else {
+        dispatch(getProductByCategorySlug({ categoryId: slug, page: 1 }))
+      }
     } else {
-      dispatch(getProductsInShop())
+      if (pageValue) {
+        dispatch(getProductsInShop(Number(pageValue)))
+      } else {
+        dispatch(getProductsInShop(1))
+      }
     }
-  }, [slug])
+  }, [slug, pageValue, dispatch])
 
   useEffect(() => {
     dispatch(getCategories())
@@ -94,6 +109,13 @@ function Shop() {
                   </ProductItem>
                 ))}
             </ProductListContainer>
+            {products && products.length > 0 && totalPage > 1 && (
+              <Pagination
+                page={pageValue}
+                totalPages={totalPage}
+                onPageChange={handlePageChange}
+              />
+            )}
           </MainContent>
         </RightContent>
       </ContentContainer>

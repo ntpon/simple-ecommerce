@@ -5,6 +5,7 @@ import {
   deleteAuthorById,
   getAuthorById,
   getAuthors,
+  getAuthorsAll,
   updateAuthor,
 } from "../../controllers/admin/author-controller"
 
@@ -13,6 +14,7 @@ import imageUpload from "../../middlewares/image-upload"
 const router = express.Router()
 
 router.get("/", auth, authRole("admin"), getAuthors)
+router.get("/all", auth, authRole("admin"), getAuthorsAll)
 
 router.get("/:id", auth, authRole("admin"), getAuthorById)
 

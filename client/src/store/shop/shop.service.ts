@@ -18,13 +18,15 @@ const getCategories = async () => {
   return response.data
 }
 
-const getProductByCategorySlug = async (slug: string) => {
-  const response = await http.get(`${API_CATEGORY_URL}/${slug}/products`)
+const getProductByCategorySlug = async (slug: string, page: number) => {
+  const response = await http.get(
+    `${API_CATEGORY_URL}/${slug}/products?page=${page}`
+  )
   return response.data
 }
 
-const getProductsInShop = async () => {
-  const response = await http.get(API_PRODUCT_URL)
+const getProductsInShop = async (page: number) => {
+  const response = await http.get(`${API_PRODUCT_URL}/?page=${page}`)
   return response.data
 }
 

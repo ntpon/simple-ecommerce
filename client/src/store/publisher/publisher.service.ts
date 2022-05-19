@@ -22,17 +22,21 @@ const deletePublisher = async (id: string) => {
   return response.data
 }
 
-const getPublishers = async () => {
-  const response = await http.get(API_URL)
+const getPublishers = async (page: number) => {
+  const response = await http.get(`${API_URL}?page=${page}`)
   return response.data
 }
-
+const getPublishersAll = async () => {
+  const response = await http.get(`${API_URL}/all`)
+  return response.data
+}
 const publisherService = {
   getPublishers,
   getPublisher,
   createPublisher,
   updatePublisher,
   deletePublisher,
+  getPublishersAll,
 }
 
 export default publisherService

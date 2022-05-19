@@ -23,21 +23,24 @@ import {
 import { toast } from "react-toastify"
 import Skeleton from "react-loading-skeleton"
 import IconButton from "../../../components/icon-button/icon-button.component"
+import usePagination from "../../../hooks/use-pagination"
+import Pagination from "../../../components/pagination/pagination.component"
 function PublisherManage() {
   const dispatch = useAppDispatch()
+  const { handlePageChange, pageValue } = usePagination()
+
   const [showModal, setShowModal] = useState(false)
   const [publisherToDelete, setPublisherToDelete] = useState("")
-  const { publishers, isLoading, message, isSuccess, isError } = useAppSelector(
-    (state) => state.publisher
-  )
+  const { publishers, isLoading, message, isSuccess, isError, totalPage } =
+    useAppSelector((state) => state.publisher)
   useEffect(() => {
-    dispatch(getPublishers())
-  }, [])
+    dispatch(getPublishers(pageValue))
+  }, [pageValue, dispatch])
 
   useEffect(() => {
     if (isSuccess) {
       toast.success(message)
-      dispatch(getPublishers())
+      dispatch(getPublishers(pageValue))
       dispatch(reset())
     }
     if (isError) {
@@ -100,6 +103,13 @@ function PublisherManage() {
           </TableBody>
         </Table>
       </TableContainer>
+      {publishers && publishers.length > 0 && totalPage > 1 && (
+        <Pagination
+          page={pageValue}
+          totalPages={totalPage}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   )
 }

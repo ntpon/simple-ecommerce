@@ -5,8 +5,9 @@ import bcrypt from "bcryptjs"
 import { v2 as cloudinary } from "cloudinary"
 import { strToSlug } from "../../utils/slug"
 import Author from "../../models/author"
+import { getPagination } from "../../utils/pagination"
 
-export const getAuthors = async (
+export const getAuthorsAll = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -14,7 +15,9 @@ export const getAuthors = async (
   try {
     const authors = await Author.find({ status: "on" })
     return res.status(200).json({
-      data: authors,
+      data: {
+        authors,
+      },
     })
   } catch (error) {
     return next(
@@ -22,6 +25,34 @@ export const getAuthors = async (
     )
   }
 }
+
+export const getAuthors = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { page, limit, skip } = getPagination(req)
+  try {
+    const [authors, totalAuthor] = await Promise.all([
+      Author.find({ status: "on" }).skip(skip).limit(limit),
+      Author.countDocuments({ status: "on" }),
+    ])
+
+    const totalPage = Math.ceil(totalAuthor / limit)
+    return res.status(200).json({
+      data: {
+        authors,
+        totalAuthor,
+        totalPage,
+      },
+    })
+  } catch (error) {
+    return next(
+      HttpError.internal("ไม่สามารถดำเนินการได้สำเร็จ กรุณาลองอีกครั้ง")
+    )
+  }
+}
+
 export const getAuthorById = async (
   req: Request,
   res: Response,

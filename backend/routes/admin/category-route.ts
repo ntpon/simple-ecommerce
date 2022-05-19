@@ -4,6 +4,7 @@ import {
   createCategory,
   deleteCategoryById,
   getCategory,
+  getCategoryAll,
   getCategoryById,
   updateCategory,
 } from "../../controllers/admin/category-controller"
@@ -12,6 +13,7 @@ import { auth, authRole } from "../../middlewares/auth-middleware"
 const router = express.Router()
 
 router.get("/", auth, authRole("admin"), getCategory)
+router.get("/all", auth, authRole("admin"), getCategoryAll)
 
 router.get("/:id", auth, authRole("admin"), getCategoryById)
 

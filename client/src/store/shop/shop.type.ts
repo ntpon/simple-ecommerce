@@ -30,6 +30,8 @@ export type Products = Product[]
 export type ShopState = {
   product: Product | undefined
   products: Products | [] | undefined
+  totalProduct: number
+  totalPage: number
   recommendProducts: Products | [] | undefined
   newProducts: Products | [] | undefined
   sciProducts: Products | [] | undefined

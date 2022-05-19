@@ -26,6 +26,8 @@ export type CartItemState = {
   cartItems: CartItems | [] | undefined
   cartItem: CartItem | undefined
   orders: Orders | [] | undefined
+  totalOrder: number
+  totalPage: number
   isError: boolean
   isSuccess: boolean
   isLoading: boolean

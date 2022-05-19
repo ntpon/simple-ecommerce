@@ -10,6 +10,8 @@ const initialState: UserState = {
   message: "",
   users: [],
   user: undefined,
+  totalUser: 0,
+  totalPage: 0,
 }
 
 export const createUser = createAsyncThunk(
@@ -24,14 +26,17 @@ export const createUser = createAsyncThunk(
   }
 )
 
-export const getUsers = createAsyncThunk("user/getAll", async (_, thunkAPI) => {
-  try {
-    return await userService.getUsers()
-  } catch (error) {
-    const err = error as AxiosError<Error>
-    return thunkAPI.rejectWithValue(err.response?.data.error)
+export const getUsers = createAsyncThunk(
+  "user/getAll",
+  async (page: number, thunkAPI) => {
+    try {
+      return await userService.getUsers(page)
+    } catch (error) {
+      const err = error as AxiosError<Error>
+      return thunkAPI.rejectWithValue(err.response?.data.error)
+    }
   }
-})
+)
 
 export const getUser = createAsyncThunk(
   "user/get",
@@ -89,7 +94,9 @@ export const userSlice = createSlice({
     })
     builder.addCase(getUsers.fulfilled, (state, action) => {
       state.isLoading = false
-      state.users = action.payload.data
+      state.users = action.payload.data.users
+      state.totalUser = action.payload.data.totalUser
+      state.totalPage = action.payload.data.totalPage
     })
     builder.addCase(getUsers.rejected, (state, action) => {
       state.isLoading = false

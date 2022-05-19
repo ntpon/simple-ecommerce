@@ -11,6 +11,8 @@ export type Publishers = Publisher[]
 export type PublisherState = {
   publishers: Publishers | [] | undefined
   publisher: Publisher | undefined
+  totalPublisher: number
+  totalPage: number
   isError: boolean
   isSuccess: boolean
   isLoading: boolean

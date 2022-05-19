@@ -5,6 +5,8 @@ import { Error } from "../../types/fetch-data.type"
 import { CategoryFormData, CategoryState } from "./category.type"
 const initialState: CategoryState = {
   categories: [],
+  totalCategory: 0,
+  totalPage: 0,
   category: undefined,
   isError: false,
   isSuccess: false,
@@ -25,16 +27,26 @@ export const createCategory = createAsyncThunk(
 )
 export const getCategories = createAsyncThunk(
   "category/getAll",
-  async (_, thunkAPI) => {
+  async (page: number, thunkAPI) => {
     try {
-      return await categoryService.getCategories()
+      return await categoryService.getCategories(page)
     } catch (error) {
       const err = error as AxiosError<Error>
       return thunkAPI.rejectWithValue(err.response?.data.error)
     }
   }
 )
-
+export const getCategoriesAll = createAsyncThunk(
+  "category/getAllNotPagination",
+  async (_, thunkAPI) => {
+    try {
+      return await categoryService.getCategoriesAll()
+    } catch (error) {
+      const err = error as AxiosError<Error>
+      return thunkAPI.rejectWithValue(err.response?.data.error)
+    }
+  }
+)
 export const getCategory = createAsyncThunk(
   "category/get",
   async (categoryId: string, thunkAPI) => {
@@ -94,9 +106,23 @@ export const categorySlice = createSlice({
     })
     builder.addCase(getCategories.fulfilled, (state, action) => {
       state.isLoading = false
-      state.categories = action.payload.data
+      state.categories = action.payload.data.categories
+      state.totalCategory = action.payload.data.totalCategory
+      state.totalPage = action.payload.data.totalPage
     })
     builder.addCase(getCategories.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = true
+      state.message = action.payload as string
+    })
+    builder.addCase(getCategoriesAll.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(getCategoriesAll.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.categories = action.payload.data.categories
+    })
+    builder.addCase(getCategoriesAll.rejected, (state, action) => {
       state.isLoading = false
       state.isError = true
       state.message = action.payload as string

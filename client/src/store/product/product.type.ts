@@ -29,6 +29,8 @@ export type Products = Product[]
 export type ProductState = {
   products: Products | [] | undefined
   product: Product | undefined
+  totalProduct: number
+  totalPage: number
   isError: boolean
   isSuccess: boolean
   isLoading: boolean

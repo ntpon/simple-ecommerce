@@ -10,6 +10,8 @@ const initialState: AuthorState = {
   message: "",
   authors: [],
   author: undefined,
+  totalAuthor: 0,
+  totalPage: 0,
 }
 
 export const createAuthor = createAsyncThunk(
@@ -26,9 +28,20 @@ export const createAuthor = createAsyncThunk(
 
 export const getAuthors = createAsyncThunk(
   "author/getAll",
+  async (page: number, thunkAPI) => {
+    try {
+      return await authorService.getAuthors(page)
+    } catch (error) {
+      const err = error as AxiosError<Error>
+      return thunkAPI.rejectWithValue(err.response?.data.error)
+    }
+  }
+)
+export const getAuthorsAll = createAsyncThunk(
+  "author/getAllNotPagination",
   async (_, thunkAPI) => {
     try {
-      return await authorService.getAuthors()
+      return await authorService.getAuthorsAll()
     } catch (error) {
       const err = error as AxiosError<Error>
       return thunkAPI.rejectWithValue(err.response?.data.error)
@@ -92,9 +105,23 @@ export const authorSlice = createSlice({
     })
     builder.addCase(getAuthors.fulfilled, (state, action) => {
       state.isLoading = false
-      state.authors = action.payload.data
+      state.authors = action.payload.data.authors
+      state.totalAuthor = action.payload.data.totalAuthor
+      state.totalPage = action.payload.data.totalPage
     })
     builder.addCase(getAuthors.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = true
+      state.message = action.payload as string
+    })
+    builder.addCase(getAuthorsAll.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(getAuthorsAll.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.authors = action.payload.data.authors
+    })
+    builder.addCase(getAuthorsAll.rejected, (state, action) => {
       state.isLoading = false
       state.isError = true
       state.message = action.payload as string

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express"
 import Category from "../models/category"
 import Product from "../models/product"
 import HttpError from "../utils/http-error"
+import { getPagination } from "../utils/pagination"
 export const getProductForHomeIndex = async (
   req: Request,
   res: Response,
@@ -74,12 +75,28 @@ export const getProducts = async (
   res: Response,
   next: NextFunction
 ) => {
-  const products = await Product.find({ status: "on" })
-  return res.status(200).json({
-    data: {
-      products,
-    },
-  })
+  const { page, limit, skip } = getPagination(req)
+  // const products = await Product.find({ status: "on" }).skip(skip).limit(limit)
+  // const totalProduct = await Product.countDocuments({ status: "on" })
+  try {
+    const [products, totalProduct] = await Promise.all([
+      Product.find({ status: "on" }).skip(skip).limit(limit),
+      Product.countDocuments({ status: "on" }),
+    ])
+
+    const totalPage = Math.ceil(totalProduct / limit)
+    return res.status(200).json({
+      data: {
+        products,
+        totalProduct,
+        totalPage,
+      },
+    })
+  } catch (error) {
+    return next(
+      HttpError.internal("ไม่สามารถดำเนินการได้สำเร็จ กรุณาลองอีกครั้ง")
+    )
+  }
 }
 
 export const getProductBySlug = async (

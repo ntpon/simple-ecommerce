@@ -14,8 +14,12 @@ const createAuthor = async (data: AuthorFormData) => {
   return resposne.data
 }
 
-const getAuthors = async () => {
-  const response = await http.get(API_URL)
+const getAuthors = async (page: number) => {
+  const response = await http.get(`${API_URL}?page=${page}`)
+  return response.data
+}
+const getAuthorsAll = async () => {
+  const response = await http.get(`${API_URL}/all`)
   return response.data
 }
 
@@ -46,5 +50,6 @@ const authorService = {
   getAuthors,
   updateAuthor,
   deleteAuthor,
+  getAuthorsAll,
 }
 export default authorService
