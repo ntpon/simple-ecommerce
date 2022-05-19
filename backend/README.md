@@ -1,1 +1,0 @@
-# Simple E-COMMERCE Backend
