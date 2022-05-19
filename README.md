@@ -2,6 +2,10 @@
 
 Simple E-COMMERCE app that imitates basic functionality of e-commerce created with MERN stack.
 
+## Demo
+
+This application is deployed on Heroku & Netlify -> [Link](https://ntpon-simple-ecommerce.netlify.app/)
+
 ## Features
 
 ### Guest
