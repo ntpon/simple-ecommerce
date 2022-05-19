@@ -96,14 +96,6 @@ npm start
 Create a .env file in the server directory and set up the following environment variables
 
 ```
-PORT='The port the server will run on'
-SECRET_KEY='Passwords encryption secret key'
-PG_HOST='Postgres host'
-PG_PORT='Postgres port'
-PG_USERNAME='Postgres username'
-PG_PASSWORD='Postgres password'
-PG_DATABASE='Postgres database name'
-
 DB_USER="Mongodb username"
 DB_PASSWORD="Mongodb password"
 DB_SERVER_NAME="Mongodb address name"
@@ -114,8 +106,6 @@ CLOUDINARY_CLOUD_NAME="Cloudinary name"
 CLOUDINARY_API_KEY="Cloudinary Key"
 CLOUDINARY_API_SECRET="Cloudinary api secret key"
 FOLDER_NAME="cloudinary Folder name"
-
-
 ```
 
 Example server .env file
