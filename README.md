@@ -59,8 +59,8 @@ This application is deployed on Heroku & Netlify -> [Link](https://ntpon-simple-
 ### Clone repository
 
 ```
-git clone https://github.com/michalosman/social-network.git
-cd social-network
+git clone https://github.com/ntpon/simple-ecommerce.git
+cd simple-ecommerce
 ```
 
 ### Client setup
