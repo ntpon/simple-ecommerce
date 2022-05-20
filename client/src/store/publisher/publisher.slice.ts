@@ -37,7 +37,7 @@ export const getPublishers = createAsyncThunk(
   }
 )
 export const getPublishersAll = createAsyncThunk(
-  "author/getAllNotPagination",
+  "publisher/getAllNotPagination",
   async (_, thunkAPI) => {
     try {
       return await publisherService.getPublishersAll()
